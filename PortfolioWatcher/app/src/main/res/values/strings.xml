@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Portfolio Watcher</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="my_portfolio">My Portfolio</string>
+    <string name="stocks">Stocks</string>
+</resources>
