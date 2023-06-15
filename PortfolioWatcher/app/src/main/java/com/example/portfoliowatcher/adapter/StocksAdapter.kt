@@ -26,7 +26,7 @@ class StocksAdapter(var stocks: List<StocksData>) : RecyclerView.Adapter<StocksA
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val stocks = stocks[position]
         holder.nameTextView.text = stocks.stockName.take(5)
-        holder.detailTextView.text = stocks.stockName.drop(5).take(15)
+        holder.detailTextView.text = stocks.stockName.drop(5)
         holder.lastValueTextView.text = stocks.lastValue
         holder.changeTextView.text = stocks.percentChange
     }
