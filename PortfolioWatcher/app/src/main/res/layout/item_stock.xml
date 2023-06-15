@@ -15,6 +15,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginLeft="20dp"/>
 
+    <ImageView
+        android:id="@+id/add_stock"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/add_stock"/>
+
     <TextView
         android:id="@+id/stockNameTextView"
         android:layout_width="80dp"
@@ -44,10 +54,11 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginRight="30dp"
+        app:layout_constraintEnd_toStartOf="@+id/add_stock"
         android:text="123,123"
         android:textAlignment="viewEnd"
         android:textColor="@color/black"
+        android:layout_marginRight="10dp"
         android:textSize="18sp"
         android:textStyle="bold"
         />
