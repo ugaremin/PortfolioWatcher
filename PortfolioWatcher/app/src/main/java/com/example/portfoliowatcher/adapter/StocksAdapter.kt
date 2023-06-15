@@ -3,6 +3,7 @@ package com.example.portfoliowatcher.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +18,7 @@ class StocksAdapter(var stocks: List<StocksData>) : RecyclerView.Adapter<StocksA
         val detailTextView: TextView = itemView.findViewById(R.id.stockNameDetailTextView)
         val lastValueTextView: TextView = itemView.findViewById(R.id.stockLastValueTextView)
         val changeTextView: TextView = itemView.findViewById(R.id.stockChangeTextView)
+        val arrowIcon: ImageView = itemView.findViewById(R.id.arrow_icon)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -37,8 +39,13 @@ class StocksAdapter(var stocks: List<StocksData>) : RecyclerView.Adapter<StocksA
 
         if (percentChange[1] == '-') {
             holder.changeTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.red))
-        } else {
+            holder.arrowIcon.setBackgroundResource(R.drawable.arrow_down)
+        }else if(percentChange == "%0,00"){
+            holder.arrowIcon.setBackgroundResource(R.drawable.arrow_right)
+            holder.changeTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.grey))
+        }else {
             holder.changeTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.green))
+            holder.arrowIcon.setBackgroundResource(R.drawable.arrow_up)
         }
     }
 

@@ -37,7 +37,7 @@ class StocksFragment : Fragment() {
 
         // Inflate the layout for this fragment
         recyclerView = view.findViewById(R.id.recyclerView)
-        adapter = StocksAdapter(emptyList()) // Başlangıçta boş bir liste ile adapter'ı oluşturun
+        adapter = StocksAdapter(emptyList())
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
@@ -75,7 +75,6 @@ class StocksFragment : Fragment() {
     }
 
     private fun performSearch(query: String) {
-        // Arama işlemini gerçekleştir ve sonuçları güncelle
         val filteredList = viewModel.stocksLiveData.value?.filter { hisseSenedi ->
             hisseSenedi.stockName.contains(query, ignoreCase = true)
         }
