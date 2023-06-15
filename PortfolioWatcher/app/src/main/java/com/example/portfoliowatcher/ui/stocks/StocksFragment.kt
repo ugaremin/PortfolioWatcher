@@ -1,10 +1,11 @@
-package com.example.portfoliowatcher
+package com.example.portfoliowatcher.ui.stocks
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.portfoliowatcher.R
 
 
 class StocksFragment : Fragment() {
