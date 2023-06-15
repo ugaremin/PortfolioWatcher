@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.portfoliowatcher.R
 import com.example.portfoliowatcher.data.StocksData
@@ -28,10 +29,25 @@ class StocksAdapter(var stocks: List<StocksData>) : RecyclerView.Adapter<StocksA
         holder.nameTextView.text = stocks.stockName.take(5)
         holder.detailTextView.text = stocks.stockName.drop(5)
         holder.lastValueTextView.text = stocks.lastValue
+
+
+        val percentChange = stocks.percentChange
+
         holder.changeTextView.text = stocks.percentChange
+
+        if (percentChange[1] == '-') {
+            holder.changeTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.red))
+        } else {
+            holder.changeTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.green))
+        }
     }
 
     override fun getItemCount(): Int {
         return stocks.size
+    }
+
+    fun setStocksSearch(stocks: List<StocksData>) {
+        this.stocks = stocks
+        notifyDataSetChanged()
     }
 }

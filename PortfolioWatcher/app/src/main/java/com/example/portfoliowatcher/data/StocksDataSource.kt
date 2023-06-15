@@ -20,9 +20,9 @@ class StocksDataSource {
         for (row in tableRows) {
             val columns = row.select("td")
             if (columns.size >= 5) {
-                val stockName = columns[0].text()
-                val lastValue = columns[1].text()
-                val percentChange = columns[5].text()
+                val stockName = columns[0].text().trim()
+                val lastValue = columns[1].text().trim()
+                val percentChange = columns[5].text().trim()
                 val rowData = StocksData(stockName, lastValue, percentChange)
                 data.add(rowData)
             }
