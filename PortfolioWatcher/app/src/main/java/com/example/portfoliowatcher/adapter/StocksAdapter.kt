@@ -41,7 +41,7 @@ class StocksAdapter(var stocks: List<StocksData>) : RecyclerView.Adapter<StocksA
             holder.changeTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.red))
             holder.arrowIcon.setBackgroundResource(R.drawable.arrow_down)
         }else if(percentChange == "%0,00"){
-            holder.arrowIcon.setBackgroundResource(R.drawable.arrow_right)
+            holder.arrowIcon.setBackgroundResource(R.drawable.arrow_line)
             holder.changeTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.grey))
         }else {
             holder.changeTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.green))
