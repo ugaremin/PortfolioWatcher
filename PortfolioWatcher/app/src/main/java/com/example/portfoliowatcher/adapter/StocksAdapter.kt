@@ -1,5 +1,6 @@
 package com.example.portfoliowatcher.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,7 @@ class StocksAdapter(var stocks: List<StocksData>) : RecyclerView.Adapter<StocksA
         val lastValueTextView: TextView = itemView.findViewById(R.id.stockLastValueTextView)
         val changeTextView: TextView = itemView.findViewById(R.id.stockChangeTextView)
         val arrowIcon: ImageView = itemView.findViewById(R.id.arrow_icon)
+        val addStock: ImageView = itemView.findViewById(R.id.add_stock)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -36,6 +38,10 @@ class StocksAdapter(var stocks: List<StocksData>) : RecyclerView.Adapter<StocksA
         val percentChange = stocks.percentChange
 
         holder.changeTextView.text = stocks.percentChange
+        //Todo: Ekleme butonuna basıldığında alının aksiyon
+        holder.addStock.setOnClickListener{
+            Log.e("EMN", "${holder.nameTextView.text} add button pressed")
+        }
 
         if (percentChange[1] == '-') {
             holder.changeTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.red))
