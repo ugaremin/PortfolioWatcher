@@ -14,4 +14,6 @@
     <color name="grey">#A2A2A2</color>
     <color name="light_grey">#D3D3D3</color>
     <color name="search_grey">#EBEBEC</color>
+    <color name="soft_green">#D5F5E3</color>
+    <color name="light_green">#E8F8F5</color>
 </resources>

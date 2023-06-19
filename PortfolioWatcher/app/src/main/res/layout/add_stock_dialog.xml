@@ -1,0 +1,121 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/add_stock_dialog_shape">
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/add_stocks"
+        android:textStyle="bold"
+        android:textColor="@color/green"
+        android:textAllCaps="true"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/stockLabelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleTextView"
+        android:text="@string/stock_name"
+        android:textStyle="bold"
+        android:layout_marginStart="30sp"
+        android:layout_marginTop="15dp"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/stockNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/stockLabelTextView"
+        app:layout_constraintTop_toTopOf="@id/stockLabelTextView"
+        android:layout_marginStart="10dp"
+        android:text="THYAO"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/stockCostTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/stockLabelTextView"
+        app:layout_constraintTop_toBottomOf="@id/stockLabelTextView"
+        android:layout_marginTop="6dp"
+        android:text="@string/stock_cost"
+        android:textStyle="bold"
+        android:textSize="20sp"/>
+
+    <EditText
+        android:id="@+id/stockCostEditText"
+        android:layout_width="150dp"
+        android:layout_height="25dp"
+        app:layout_constraintStart_toStartOf="@id/stockNameTextView"
+        app:layout_constraintTop_toTopOf="@+id/stockCostTextView"
+        android:inputType="numberDecimal"
+        android:textSize="20sp"
+        android:background="@color/light_green"/>
+
+    <TextView
+        android:id="@+id/stockAmauntTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/stockCostTextView"
+        app:layout_constraintEnd_toEndOf="@id/stockCostTextView"
+        android:layout_marginTop="6dp"
+        android:text="@string/stock_amount"
+        android:textStyle="bold"
+        android:textSize="20sp"/>
+
+    <EditText
+        android:id="@+id/stockAmauntEditText"
+        android:layout_width="150dp"
+        android:layout_height="25dp"
+        app:layout_constraintStart_toStartOf="@id/stockNameTextView"
+        app:layout_constraintTop_toTopOf="@+id/stockAmauntTextView"
+        android:inputType="numberDecimal"
+        android:textSize="20sp"
+        android:background="@color/light_green"/>
+
+    <TextView
+        android:id="@+id/totalTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/stockAmauntTextView"
+        app:layout_constraintEnd_toEndOf="@id/stockAmauntTextView"
+        android:layout_marginTop="6dp"
+        android:text="@string/total"
+        android:textStyle="bold"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/stockTotalTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/totalTextView"
+        app:layout_constraintStart_toStartOf="@id/stockNameTextView"
+        android:text="123123,123"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="20sp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stockTotalTextView"
+        android:layout_marginTop="6dp"
+        android:text="@string/add"
+        android:backgroundTint="@color/green"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
