@@ -1,15 +1,19 @@
 package com.example.portfoliowatcher.adapter
 
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.portfoliowatcher.R
 import com.example.portfoliowatcher.data.StocksData
+import com.example.portfoliowatcher.ui.dialogs.AddStockFragment
+import com.example.portfoliowatcher.ui.portfolio.PortfolioFragment
 
 class StocksAdapter(var stocks: List<StocksData>) : RecyclerView.Adapter<StocksAdapter.ViewHolder>()  {
 
@@ -40,7 +44,24 @@ class StocksAdapter(var stocks: List<StocksData>) : RecyclerView.Adapter<StocksA
         holder.changeTextView.text = stocks.percentChange
         //Todo: Ekleme butonuna basıldığında alının aksiyon
         holder.addStock.setOnClickListener{
-            Log.e("EMN", "${holder.nameTextView.text} add button pressed")
+
+            val itemName = stocks.stockName.take(5)
+            val itemValue = stocks.lastValue
+
+            val fragment = AddStockFragment()
+            val bundle = Bundle()
+            bundle.putString("itemName", itemName)
+            bundle.putString("itemValue", itemValue)
+            fragment.arguments = bundle
+
+
+            val fragmentManager = (holder.addStock.context as AppCompatActivity).supportFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
+            fragmentTransaction.replace(R.id.container, fragment)
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
+
+
         }
 
         if (percentChange[1] == '-') {
