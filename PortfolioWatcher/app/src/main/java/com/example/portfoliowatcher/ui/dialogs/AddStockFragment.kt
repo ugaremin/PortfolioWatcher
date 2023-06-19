@@ -6,7 +6,6 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,6 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.portfoliowatcher.R
-import java.time.temporal.TemporalAmount
 
 
 class AddStockFragment : Fragment() {
@@ -65,6 +63,36 @@ class AddStockFragment : Fragment() {
         addButton = alertLayout.findViewById(R.id.addButton)
         cancelButton = alertLayout.findViewById(R.id.cancelButton)
 
+        dialogStockCost?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                s?.let {
+                    val cost = it.toString()
+                    if (cost.isNotEmpty()) {
+                        val costFloat = cost.toFloatOrNull()
+                        val amountString: String = dialogStockAmount?.text.toString()
+                        val amountFloat = amountString.toFloatOrNull()
+                        val result = amountFloat?.let { it1 -> costFloat?.times(it1) }
+                        if (result != null) {
+                            dialogStockTotal?.text = result.toString()
+                        }
+
+                        addButton?.isEnabled=true
+
+                    } else {
+                        dialogStockTotal?.text = ""
+                        addButton?.isEnabled=false
+                    }
+                }
+            }
+
+        })
+
         dialogStockAmount?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
@@ -74,11 +102,15 @@ class AddStockFragment : Fragment() {
 
             override fun afterTextChanged(s: Editable?) {
                 s?.let {
-                    val input = it.toString()
-                    if (input.isNotEmpty()) {
-                        val number = input.toFloatOrNull()
-                        val result = number?.times(stockValue.toFloatOrNull()!!)
-                        dialogStockTotal?.text = result.toString()
+                    val amount = it.toString()
+                    if (amount.isNotEmpty()) {
+                        val amountFloat = amount.toFloatOrNull()
+                        val costString: String = dialogStockCost?.text.toString()
+                        val costFloat = costString.toFloatOrNull()
+                        val result = costFloat?.let { it1 -> amountFloat?.times(it1) }
+                        if (result != null) {
+                            dialogStockTotal?.text = result.toString()
+                        }
                         addButton?.isEnabled=true
                     } else {
                         dialogStockTotal?.text = ""
