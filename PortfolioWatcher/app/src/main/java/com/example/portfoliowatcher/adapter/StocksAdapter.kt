@@ -46,20 +46,8 @@ class StocksAdapter(var stocks: List<StocksData>) : RecyclerView.Adapter<StocksA
         holder.addStock.setOnClickListener{
 
             val itemName = stocks.stockName.take(5)
-            val itemValue = stocks.lastValue
-
-            val fragment = AddStockFragment()
-            val bundle = Bundle()
-            bundle.putString("itemName", itemName)
-            bundle.putString("itemValue", itemValue)
-            fragment.arguments = bundle
-
-
-            val fragmentManager = (holder.addStock.context as AppCompatActivity).supportFragmentManager
-            val fragmentTransaction = fragmentManager.beginTransaction()
-            fragmentTransaction.replace(R.id.container, fragment)
-            fragmentTransaction.addToBackStack(null)
-            fragmentTransaction.commit()
+            holder.addStock.setImageResource(R.drawable.add_stock_success)
+            holder.addStock.isClickable = false
 
 
         }

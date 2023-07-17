@@ -102,8 +102,8 @@ class StocksFragment : Fragment() {
     }
 
     private fun performSearch(query: String) {
-        val filteredList = viewModel.stocksLiveData.value?.filter { hisseSenedi ->
-            hisseSenedi.stockName.contains(query, ignoreCase = true)
+        val filteredList = viewModel.stocksLiveData.value?.filter { stocks ->
+            stocks.stockName.contains(query, ignoreCase = true)
         }
         filteredList?.let { adapter.setStocksSearch(it) }
     }
