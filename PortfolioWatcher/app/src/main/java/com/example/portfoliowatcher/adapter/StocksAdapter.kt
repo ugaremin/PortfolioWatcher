@@ -1,6 +1,8 @@
 package com.example.portfoliowatcher.adapter
 
+import android.content.Context
 import android.os.Bundle
+import android.provider.Settings.Global
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,12 +12,18 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.portfoliowatcher.AppDatabase
 import com.example.portfoliowatcher.R
+import com.example.portfoliowatcher.Stocks
+import com.example.portfoliowatcher.StocksDao
 import com.example.portfoliowatcher.data.StocksData
 import com.example.portfoliowatcher.ui.dialogs.AddStockFragment
 import com.example.portfoliowatcher.ui.portfolio.PortfolioFragment
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
-class StocksAdapter(var stocks: List<StocksData>) : RecyclerView.Adapter<StocksAdapter.ViewHolder>()  {
+class StocksAdapter(val context: Context, var stocks: List<StocksData>) : RecyclerView.Adapter<StocksAdapter.ViewHolder>()  {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -46,6 +54,8 @@ class StocksAdapter(var stocks: List<StocksData>) : RecyclerView.Adapter<StocksA
         holder.addStock.setOnClickListener{
 
             val itemName = stocks.stockName.take(5)
+            val stock = Stocks(0,itemName.trim())
+            persistStock(stock)
             holder.addStock.setImageResource(R.drawable.add_stock_success)
             holder.addStock.isClickable = false
 
@@ -71,5 +81,17 @@ class StocksAdapter(var stocks: List<StocksData>) : RecyclerView.Adapter<StocksA
     fun setStocksSearch(stocks: List<StocksData>) {
         this.stocks = stocks
         notifyDataSetChanged()
+    }
+
+    private fun persistStock(stocks: Stocks){
+        GlobalScope.launch {
+            launch(Dispatchers.IO){
+                val userDao = AppDatabase.getInstance(context).stocksDao()
+                userDao.insert(stocks)
+
+
+            }
+
+        }
     }
 }

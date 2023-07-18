@@ -42,7 +42,7 @@ class StocksFragment : Fragment() {
         _binding = FragmentStocksBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        adapter = StocksAdapter(emptyList())
+        adapter = StocksAdapter(requireContext(), emptyList())
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(activity)
 
