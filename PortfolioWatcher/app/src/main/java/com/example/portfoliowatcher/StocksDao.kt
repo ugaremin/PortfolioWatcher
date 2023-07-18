@@ -21,6 +21,6 @@ interface StocksDao {
     fun findStock(searchStock: String): Stocks?
 
     @Query("DELETE FROM stocks WHERE name = :searchName")
-    fun deleteStockByStockname(searchName: String)
+    fun deleteStockByStockName(searchName: String)
 
 }

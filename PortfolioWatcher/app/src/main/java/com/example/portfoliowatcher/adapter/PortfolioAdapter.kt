@@ -12,6 +12,10 @@ import com.example.portfoliowatcher.AppDatabase
 import com.example.portfoliowatcher.R
 import com.example.portfoliowatcher.Stocks
 import com.example.portfoliowatcher.data.StocksData
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class PortfolioAdapter(val context: Context, var stocks: List<StocksData>) : RecyclerView.Adapter<PortfolioAdapter.PortfolioViewHolder>() {
 
@@ -36,6 +40,7 @@ class PortfolioAdapter(val context: Context, var stocks: List<StocksData>) : Rec
         return stocks.size
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onBindViewHolder(holder: PortfolioViewHolder, position: Int) {
         val stocks = stocks[position]
         holder.nameTextView.text = stocks.stockName.take(5)
@@ -47,7 +52,12 @@ class PortfolioAdapter(val context: Context, var stocks: List<StocksData>) : Rec
         val percentChange = stocks.percentChange
         //Todo: Delete butonuna basıldığında alının aksiyon
         holder.deleteStock.setOnClickListener{
-
+            val name = stocks.stockName.take(5)
+            GlobalScope.launch {
+                launch(Dispatchers.IO) {
+                    AppDatabase.getInstance(context).stocksDao().deleteStockByStockName(name)
+                }
+            }
 
         }
 
