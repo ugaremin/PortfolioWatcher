@@ -98,7 +98,7 @@ class PortfolioFragment : Fragment() {
             adapter.setStocksSearch(stocks)
         })
 
-        viewModel.getAllStocks()
+        viewModel.getAllStocks(requireContext())
 
         return view
     }

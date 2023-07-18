@@ -1,5 +1,6 @@
 package com.example.portfoliowatcher.ui.portfolio
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.portfoliowatcher.data.StocksData
@@ -12,10 +13,10 @@ class PortfolioViewModel : ViewModel() {
 
     val stocksLiveData = MutableLiveData<List<StocksData>>()
 
-    fun getAllStocks() {
+    fun getAllStocks(context: Context) {
         GlobalScope.launch(Dispatchers.IO) {
             val dataSource = StocksDataSource()
-            val stocks = dataSource.getStocksData()
+            val stocks = dataSource.getPortfolioData(context)
             stocksLiveData.postValue(stocks)
         }
     }

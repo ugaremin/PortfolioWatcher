@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.portfoliowatcher.AppDatabase
 import com.example.portfoliowatcher.R
 import com.example.portfoliowatcher.Stocks
 import com.example.portfoliowatcher.data.StocksData
