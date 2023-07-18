@@ -45,16 +45,15 @@ class StocksAdapter(val context: Context, var stocks: List<StocksData>) : Recycl
         holder.nameTextView.text = stocks.stockName.take(5)
         holder.detailTextView.text = stocks.stockName.drop(5)
         holder.lastValueTextView.text = stocks.lastValue
+        holder.changeTextView.text = stocks.percentChange
 
 
         val percentChange = stocks.percentChange
-
-        holder.changeTextView.text = stocks.percentChange
         //Todo: Ekleme butonuna basıldığında alının aksiyon
         holder.addStock.setOnClickListener{
 
             val itemName = stocks.stockName.take(5)
-            val stock = Stocks(0,itemName.trim())
+            val stock = Stocks(0,itemName)
             persistStock(stock)
             holder.addStock.setImageResource(R.drawable.add_stock_success)
             holder.addStock.isClickable = false
