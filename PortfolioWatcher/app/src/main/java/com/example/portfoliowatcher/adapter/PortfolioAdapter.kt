@@ -12,12 +12,13 @@ import com.example.portfoliowatcher.AppDatabase
 import com.example.portfoliowatcher.R
 import com.example.portfoliowatcher.Stocks
 import com.example.portfoliowatcher.data.StocksData
+import com.example.portfoliowatcher.ui.portfolio.PortfolioViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class PortfolioAdapter(val context: Context, var stocks: List<StocksData>) : RecyclerView.Adapter<PortfolioAdapter.PortfolioViewHolder>() {
+class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>) : RecyclerView.Adapter<PortfolioAdapter.PortfolioViewHolder>() {
 
 
     inner class PortfolioViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -52,6 +53,7 @@ class PortfolioAdapter(val context: Context, var stocks: List<StocksData>) : Rec
         val percentChange = stocks.percentChange
         //Todo: Delete butonuna basıldığında alının aksiyon
         holder.deleteStock.setOnClickListener{
+            deleteItem(position)
             val name = stocks.stockName.take(5)
             GlobalScope.launch {
                 launch(Dispatchers.IO) {
@@ -74,7 +76,12 @@ class PortfolioAdapter(val context: Context, var stocks: List<StocksData>) : Rec
     }
 
     fun setStocksSearch(stocks: List<StocksData>) {
-        this.stocks = stocks
+        this.stocks = stocks.toMutableList()
         notifyDataSetChanged()
+    }
+
+    fun deleteItem(position: Int) {
+        stocks.removeAt(position)
+        notifyItemRemoved(position)
     }
 }

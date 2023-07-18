@@ -8,7 +8,7 @@ import org.jsoup.Jsoup
 
 class StocksDataSource {
 
-    suspend fun getStocksData(): List<StocksData> {
+    suspend fun getStocksData(): MutableList<StocksData> {
         val url = "https://borsa.doviz.com/hisseler"
         val doc = withContext(Dispatchers.IO) {
             Jsoup.connect(url).get()
@@ -49,7 +49,7 @@ class StocksDataSource {
                 val stockName = columns[0].text().trim()
                 val lastValue = columns[1].text().trim()
                 val percentChange = columns[5].text().trim()
-                var name = stockName.take(5)
+                val name = stockName.take(5)
                 val user = AppDatabase.getInstance(context).stocksDao().findStock(name)
                 if(user != null){
                     val rowData = StocksData(stockName, lastValue, percentChange)

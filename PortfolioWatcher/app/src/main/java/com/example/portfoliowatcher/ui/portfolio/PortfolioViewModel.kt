@@ -11,13 +11,13 @@ import kotlinx.coroutines.launch
 
 class PortfolioViewModel : ViewModel() {
 
-    val stocksLiveData = MutableLiveData<List<StocksData>>()
+    val stocksLiveData = MutableLiveData<MutableList<StocksData>>()
 
     fun getAllStocks(context: Context) {
         GlobalScope.launch(Dispatchers.IO) {
             val dataSource = StocksDataSource()
             val stocks = dataSource.getPortfolioData(context)
-            stocksLiveData.postValue(stocks)
+            stocksLiveData.postValue(stocks.toMutableList())
         }
     }
 }

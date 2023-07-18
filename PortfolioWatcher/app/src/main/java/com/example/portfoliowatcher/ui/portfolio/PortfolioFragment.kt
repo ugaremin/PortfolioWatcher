@@ -24,6 +24,7 @@ import com.example.portfoliowatcher.R
 import com.example.portfoliowatcher.StocksDao
 import com.example.portfoliowatcher.adapter.PortfolioAdapter
 import com.example.portfoliowatcher.adapter.StocksAdapter
+import com.example.portfoliowatcher.data.StocksData
 import com.example.portfoliowatcher.databinding.FragmentPortfolioBinding
 import com.example.portfoliowatcher.databinding.FragmentStocksBinding
 import com.example.portfoliowatcher.ui.stocks.StocksViewModel
@@ -48,8 +49,8 @@ class PortfolioFragment : Fragment() {
 
         _binding = FragmentPortfolioBinding.inflate(inflater, container, false)
         val view = binding.root
-
-        adapter = PortfolioAdapter(requireContext(), emptyList())
+        val mutableList = mutableListOf<StocksData>()
+        adapter = PortfolioAdapter(requireContext(), mutableList)
         binding.portfolioRecyclerView.adapter = adapter
         binding.portfolioRecyclerView.layoutManager = LinearLayoutManager(activity)
 
