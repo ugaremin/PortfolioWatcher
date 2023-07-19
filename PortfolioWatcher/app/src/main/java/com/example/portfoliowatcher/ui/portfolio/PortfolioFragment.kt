@@ -5,6 +5,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -17,9 +18,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.portfoliowatcher.AppDatabase
 import com.example.portfoliowatcher.adapter.PortfolioAdapter
 import com.example.portfoliowatcher.data.StocksData
 import com.example.portfoliowatcher.databinding.FragmentPortfolioBinding
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class PortfolioFragment : Fragment() {
@@ -45,6 +51,10 @@ class PortfolioFragment : Fragment() {
 
         searchBarTextWatcher(binding.searchEditText)
 
+        binding.deleteButton.setOnClickListener{
+            deleteCheckedItems()
+        }
+
         binding.cancelButton.setOnClickListener(View.OnClickListener {
             binding.searchEditText.setText("")
             hideKeyboard(binding.searchEditText)
@@ -62,8 +72,6 @@ class PortfolioFragment : Fragment() {
         binding.portfolioRecyclerView.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
             override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
                 hideKeyboard(binding.searchEditText)
-                viewModel.getAllStocks(requireContext())
-
                 return false
             }
 
@@ -125,6 +133,21 @@ class PortfolioFragment : Fragment() {
             }
         })
 
+    }
+
+    @OptIn(DelicateCoroutinesApi::class)
+    private fun deleteCheckedItems() {
+        val checkedItems = adapter.getCheckedItems()
+        for (item in checkedItems) {
+            val stockName = item.stockName.take(5)
+            GlobalScope.launch {
+                launch (Dispatchers.IO){
+                    AppDatabase.getInstance(requireContext()).stocksDao().deleteStockByStockName(stockName)
+                }
+            }
+
+            Log.d("EMN", stockName)
+        }
     }
 
 
