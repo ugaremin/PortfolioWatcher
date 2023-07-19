@@ -11,9 +11,11 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.portfoliowatcher.AppDatabase
+import com.example.portfoliowatcher.Listener
 import com.example.portfoliowatcher.R
 import com.example.portfoliowatcher.Stocks
 import com.example.portfoliowatcher.data.StocksData
+import com.example.portfoliowatcher.ui.portfolio.PortfolioFragment
 import com.example.portfoliowatcher.ui.portfolio.PortfolioViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -31,6 +33,15 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
         val changeTextView: TextView = itemView.findViewById(R.id.stockChangeTextViewPortfolio)
         val arrowIcon: ImageView = itemView.findViewById(R.id.arrow_icon_portfolio)
         val itemCheck: CheckBox = itemView.findViewById(R.id.checkBox)
+
+        init {
+            itemCheck.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    (itemView.context as? Listener)?.onItemClicked(position)
+                }
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PortfolioViewHolder {
@@ -88,5 +99,23 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
 
     fun getCheckedItems(): List<StocksData> {
         return checkedItems.map { stocks[it] }
+    }
+
+    fun deleteSelectedItems() {
+        val sortedSelectedItems = checkedItems.toList().sortedDescending()
+        for (position in sortedSelectedItems) {
+            stocks.removeAt(position)
+            notifyItemRemoved(position)
+        }
+        checkedItems.clear()
+    }
+
+    fun toggleItemSelection(position: Int) {
+        if (checkedItems.contains(position)) {
+            checkedItems.remove(position)
+        } else {
+            checkedItems.add(position)
+        }
+        notifyItemChanged(position)
     }
 }

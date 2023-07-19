@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.portfoliowatcher.AppDatabase
+import com.example.portfoliowatcher.Listener
 import com.example.portfoliowatcher.adapter.PortfolioAdapter
 import com.example.portfoliowatcher.data.StocksData
 import com.example.portfoliowatcher.databinding.FragmentPortfolioBinding
@@ -28,7 +29,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 
-class PortfolioFragment : Fragment() {
+class PortfolioFragment : Fragment(), Listener {
+
     private lateinit var viewModel: PortfolioViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PortfolioAdapter
@@ -139,6 +141,7 @@ class PortfolioFragment : Fragment() {
     private fun deleteCheckedItems() {
         val checkedItems = adapter.getCheckedItems()
         for (item in checkedItems) {
+            adapter.deleteSelectedItems()
             val stockName = item.stockName.take(5)
             GlobalScope.launch {
                 launch (Dispatchers.IO){
@@ -148,6 +151,16 @@ class PortfolioFragment : Fragment() {
 
             Log.d("EMN", stockName)
         }
+    }
+
+    private val listener = object : Listener {
+        override fun onItemClicked(position: Int) {
+            adapter.toggleItemSelection(position)
+        }
+    }
+
+    override fun onItemClicked(position: Int) {
+        TODO("Not yet implemented")
     }
 
 
