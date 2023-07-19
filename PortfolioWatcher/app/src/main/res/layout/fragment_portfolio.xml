@@ -51,8 +51,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="60dp"
         android:text="@string/delete"
-        android:background="@color/red"
-        android:textSize="20dp"
+        android:background="@drawable/delete_button_shape"
+        android:textSize="20sp"
         android:textColor="#FFFFFF" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
