@@ -107,7 +107,10 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
             stocks.removeAt(position)
             notifyItemRemoved(position)
         }
-        checkedItems.clear()
+        if(checkedItems.size != 0){
+            checkedItems.clear()
+        }
+        
     }
 
     fun toggleItemSelection(position: Int) {
