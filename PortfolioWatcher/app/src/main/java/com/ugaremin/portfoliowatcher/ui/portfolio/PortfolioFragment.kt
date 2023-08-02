@@ -22,7 +22,7 @@ import com.ugaremin.portfoliowatcher.AppDatabase
 import com.ugaremin.portfoliowatcher.Listener
 import com.ugaremin.portfoliowatcher.adapter.PortfolioAdapter
 import com.ugaremin.portfoliowatcher.data.StocksData
-import com.example.portfoliowatcher.databinding.FragmentPortfolioBinding
+import com.ugaremin.portfoliowatcher.databinding.FragmentPortfolioBinding
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

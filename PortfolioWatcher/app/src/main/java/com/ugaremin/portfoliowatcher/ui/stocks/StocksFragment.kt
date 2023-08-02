@@ -19,9 +19,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.portfoliowatcher.R
+import com.ugaremin.portfoliowatcher.R
 import com.ugaremin.portfoliowatcher.adapter.StocksAdapter
-import com.example.portfoliowatcher.databinding.FragmentStocksBinding
+import com.ugaremin.portfoliowatcher.databinding.FragmentStocksBinding
 
 
 class StocksFragment : Fragment() {

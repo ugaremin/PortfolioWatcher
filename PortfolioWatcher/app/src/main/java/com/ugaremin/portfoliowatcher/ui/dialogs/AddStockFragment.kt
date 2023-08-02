@@ -13,7 +13,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.example.portfoliowatcher.R
+import com.ugaremin.portfoliowatcher.R
 
 
 class AddStockFragment : Fragment() {

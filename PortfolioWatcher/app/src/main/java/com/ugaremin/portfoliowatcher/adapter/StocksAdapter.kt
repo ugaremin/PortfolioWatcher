@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ugaremin.portfoliowatcher.AppDatabase
-import com.example.portfoliowatcher.R
+import com.ugaremin.portfoliowatcher.R
 import com.ugaremin.portfoliowatcher.Stocks
 import com.ugaremin.portfoliowatcher.StocksDao
 import com.ugaremin.portfoliowatcher.data.StocksData
