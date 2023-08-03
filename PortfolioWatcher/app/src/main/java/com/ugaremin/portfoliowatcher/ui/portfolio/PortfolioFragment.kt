@@ -140,14 +140,12 @@ class PortfolioFragment : Fragment(), Listener {
     @OptIn(DelicateCoroutinesApi::class)
     private fun deleteCheckedItems() {
         val checkedItems = adapter.getCheckedItems()
-        if (checkedItems.size != 0){
-            for (item in checkedItems) {
-                adapter.deleteSelectedItems()
-                val stockName = item.stockName.take(5)
-                GlobalScope.launch {
-                    launch (Dispatchers.IO){
-                        AppDatabase.getInstance(requireContext()).stocksDao().deleteStockByStockName(stockName)
-                    }
+        for (item in checkedItems) {
+            adapter.deleteSelectedItems()
+            val stockName = item.stockName.take(5)
+            GlobalScope.launch {
+                launch (Dispatchers.IO){
+                    AppDatabase.getInstance(requireContext()).stocksDao().deleteStockByStockName(stockName)
                 }
             }
         }

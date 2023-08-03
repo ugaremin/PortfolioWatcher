@@ -98,7 +98,13 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
     }
 
     fun getCheckedItems(): List<StocksData> {
-        return checkedItems.map { stocks[it] }
+        val result = mutableListOf<StocksData>()
+        for (index in checkedItems) {
+            if (index >= 0 && index < stocks.size) {
+                result.add(stocks[index])
+            }
+        }
+        return result
     }
 
     fun deleteSelectedItems() {
