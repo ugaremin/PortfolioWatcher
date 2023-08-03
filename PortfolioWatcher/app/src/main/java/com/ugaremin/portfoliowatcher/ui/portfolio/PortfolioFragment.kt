@@ -140,7 +140,7 @@ class PortfolioFragment : Fragment(), Listener {
     @OptIn(DelicateCoroutinesApi::class)
     private fun deleteCheckedItems() {
         val checkedItems = adapter.getCheckedItems()
-        if (checkedItems.isNotEmpty()){
+        if (checkedItems.size != 0){
             for (item in checkedItems) {
                 adapter.deleteSelectedItems()
                 val stockName = item.stockName.take(5)
