@@ -91,13 +91,14 @@ class StocksFragment : Fragment() {
             adapter.setStocksSearch(stocks)
         })
 
-        viewModel.uploadStocksData()
+        viewModel.startDatabaseRequest()
 
         return view
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        viewModel.stopDatabaseRequest()
         _binding = null
     }
 

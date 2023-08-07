@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Portfolio Watcher</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="my_portfolio">Portföyüm</string>
+    <string name="stocks">Hisseler</string>
+    <string name="search_stocks">Hisse Ara</string>
+    <string name="add_stocks">Hisse Ekle</string>
+    <string name="stock_name">Hisse Adı:</string>
+    <string name="stock_cost">Maliyet:</string>
+    <string name="stock_amount">Miktar:</string>
+    <string name="total">Toplam:</string>
+    <string name="add">Ekle</string>
+    <string name="cancel">İptal</string>
+    <string name="delete">Sil</string>
+</resources>

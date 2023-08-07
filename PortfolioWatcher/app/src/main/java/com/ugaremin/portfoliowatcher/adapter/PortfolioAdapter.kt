@@ -92,10 +92,6 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
         notifyDataSetChanged()
     }
 
-    fun deleteItem(position: Int) {
-        stocks.removeAt(position)
-        notifyItemRemoved(position)
-    }
 
     fun getCheckedItems(): List<StocksData> {
         val result = mutableListOf<StocksData>()
@@ -117,14 +113,5 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
             checkedItems.clear()
         }
         
-    }
-
-    fun toggleItemSelection(position: Int) {
-        if (checkedItems.contains(position)) {
-            checkedItems.remove(position)
-        } else {
-            checkedItems.add(position)
-        }
-        notifyItemChanged(position)
     }
 }

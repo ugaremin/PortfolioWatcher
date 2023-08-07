@@ -8,44 +8,20 @@
     android:orientation="vertical"
     tools:context="com.ugaremin.portfoliowatcher.ui.portfolio.PortfolioFragment">
 
-    <EditText
-        android:id="@+id/searchEditText"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:hint="@string/search_stocks"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:imeOptions="actionSearch"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_weight="1"
-        android:background="@drawable/search_bar_shape"
-        android:drawableStart="@drawable/icon_search"
-        android:singleLine="true" />
 
-    <ImageView
-        android:id="@+id/cancel_button"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        app:layout_constraintEnd_toEndOf="@+id/searchEditText"
-        app:layout_constraintTop_toTopOf="@+id/searchEditText"
-        app:layout_constraintBottom_toBottomOf="@+id/searchEditText"
-        android:layout_marginRight="5dp"
-        android:background="@drawable/icon_cancel"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/portfolioRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="615dp"
-        app:layout_constraintTop_toBottomOf="@+id/searchEditText"
+        android:layout_height="665dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/deleteButton"
         android:layout_width="200dp"
-        android:layout_height="40dp"
+        android:layout_height="45dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
