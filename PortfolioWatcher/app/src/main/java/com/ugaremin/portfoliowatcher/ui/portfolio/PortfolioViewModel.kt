@@ -1,6 +1,8 @@
 package com.ugaremin.portfoliowatcher.ui.portfolio
 
 import android.content.Context
+import android.os.Handler
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ugaremin.portfoliowatcher.data.StocksData
@@ -12,6 +14,41 @@ import kotlinx.coroutines.launch
 class PortfolioViewModel : ViewModel() {
 
     val stocksLiveData = MutableLiveData<MutableList<StocksData>>()
+
+    private val handler = Handler()
+    private val interval = 15000L
+
+    private val databaseRequestRunnable = object : Runnable {
+        override fun run() {
+            _contextLiveData.value?.let { context ->
+
+                getAllStocks(context)
+            }
+
+            handler.postDelayed(this, interval)
+        }
+    }
+
+    private val _contextLiveData = MutableLiveData<Context>()
+    val contextLiveData: LiveData<Context>
+        get() = _contextLiveData
+
+    fun setContext(context: Context) {
+        _contextLiveData.value = context
+    }
+
+    fun startDatabaseRequest() {
+        handler.post(databaseRequestRunnable)
+    }
+
+    fun stopDatabaseRequest() {
+        handler.removeCallbacks(databaseRequestRunnable)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        handler.removeCallbacksAndMessages(null)
+    }
 
     fun getAllStocks(context: Context) {
         GlobalScope.launch(Dispatchers.IO) {

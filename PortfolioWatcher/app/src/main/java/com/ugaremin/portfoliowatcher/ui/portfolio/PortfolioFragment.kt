@@ -2,6 +2,7 @@ package com.ugaremin.portfoliowatcher.ui.portfolio
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -66,13 +67,15 @@ class PortfolioFragment : Fragment(), Listener {
             adapter.setStocksSearch(stocks)
         })
 
-        viewModel.getAllStocks(requireContext())
+        viewModel.setContext(requireContext())
+        viewModel.startDatabaseRequest()
 
         return view
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        viewModel.stopDatabaseRequest()
         _binding = null
     }
 
