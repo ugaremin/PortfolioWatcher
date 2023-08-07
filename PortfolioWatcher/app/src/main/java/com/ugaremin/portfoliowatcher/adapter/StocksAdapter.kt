@@ -86,7 +86,9 @@ class StocksAdapter(val context: Context, var stocks: List<StocksData>) : Recycl
         GlobalScope.launch {
             launch(Dispatchers.IO){
                 val userDao = AppDatabase.getInstance(context).stocksDao()
-                userDao.insert(stocks)
+                if(userDao.findStock(stocks.stock_name) == null){
+                    userDao.insert(stocks)
+                }
 
 
             }
