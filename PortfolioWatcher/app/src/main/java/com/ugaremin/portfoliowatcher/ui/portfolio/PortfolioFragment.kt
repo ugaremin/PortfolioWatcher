@@ -51,43 +51,10 @@ class PortfolioFragment : Fragment(), Listener {
         binding.portfolioRecyclerView.adapter = adapter
         binding.portfolioRecyclerView.layoutManager = LinearLayoutManager(activity)
 
-        searchBarTextWatcher(binding.searchEditText)
 
         binding.deleteButton.setOnClickListener{
             deleteCheckedItems()
         }
-
-        binding.cancelButton.setOnClickListener(View.OnClickListener {
-            binding.searchEditText.setText("")
-            hideKeyboard(binding.searchEditText)
-        })
-
-
-        binding.stocksLayout.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-
-                hideKeyboard(binding.searchEditText)
-            }
-            false
-        }
-
-        binding.portfolioRecyclerView.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
-            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-                hideKeyboard(binding.searchEditText)
-                return false
-            }
-
-            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {}
-            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
-        })
-
-
-        binding.portfolioRecyclerView.addItemDecoration(
-            DividerItemDecoration(
-                activity?.baseContext,
-                (binding.portfolioRecyclerView.layoutManager as LinearLayoutManager).orientation
-            )
-        )
 
 
 
@@ -109,34 +76,6 @@ class PortfolioFragment : Fragment(), Listener {
         _binding = null
     }
 
-    private fun performSearch(query: String) {
-        val filteredList = viewModel.stocksLiveData.value?.filter { stocks ->
-            stocks.stockName.contains(query, ignoreCase = true)
-        }
-        filteredList?.let { adapter.setStocksSearch(it) }
-    }
-
-    private fun hideKeyboard(editText: EditText) {
-        editText.clearFocus()
-        val imm = requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view?.windowToken, 0)
-    }
-
-    private fun searchBarTextWatcher(editText: EditText){
-
-        editText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(s: Editable?) {
-                val query = s.toString()
-                performSearch(query)
-            }
-        })
-
-    }
-
     @OptIn(DelicateCoroutinesApi::class)
     private fun deleteCheckedItems() {
         val checkedItems = adapter.getCheckedItems()
@@ -150,12 +89,6 @@ class PortfolioFragment : Fragment(), Listener {
             }
         }
 
-    }
-
-    private val listener = object : Listener {
-        override fun onItemClicked(position: Int) {
-            adapter.toggleItemSelection(position)
-        }
     }
 
     override fun onItemClicked(position: Int) {
