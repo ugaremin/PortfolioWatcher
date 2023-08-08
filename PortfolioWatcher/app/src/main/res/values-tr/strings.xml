@@ -16,4 +16,5 @@
     <string name="cancel">İptal</string>
     <string name="delete">Sil</string>
     <string name="already_exist">Bu hisse portföyünüzde muvcut</string>
+    <string name="network_error">İnternet Bağlantınızı kontrol edin</string>
 </resources>

@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -21,6 +22,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ugaremin.portfoliowatcher.AppDatabase
 import com.ugaremin.portfoliowatcher.Listener
+import com.ugaremin.portfoliowatcher.NetworkCheck.Companion.isInternetAvailable
+import com.ugaremin.portfoliowatcher.R
 import com.ugaremin.portfoliowatcher.adapter.PortfolioAdapter
 import com.ugaremin.portfoliowatcher.data.StocksData
 import com.ugaremin.portfoliowatcher.databinding.FragmentPortfolioBinding
@@ -68,7 +71,11 @@ class PortfolioFragment : Fragment(), Listener {
         })
 
         viewModel.setContext(requireContext())
-        viewModel.startDatabaseRequest()
+        if(isInternetAvailable(requireContext())){
+            viewModel.startDatabaseRequest()
+        }else{
+            Toast.makeText(requireContext(), getString(R.string.network_error), Toast.LENGTH_LONG).show()
+        }
 
         return view
     }
