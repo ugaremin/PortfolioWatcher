@@ -10,7 +10,11 @@
     <string name="stock_cost">Cost:</string>
     <string name="stock_amount">Amount:</string>
     <string name="total">Total:</string>
+    <string name="total_value">Value:</string>
+    <string name="profit">Profit:</string>
     <string name="add">Add</string>
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
+    <string name="already_exist">This stock already exists in your portfolio</string>
+    <string name="network_error">Check your Internet Connection</string>
 </resources>

@@ -13,12 +13,14 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ugaremin.portfoliowatcher.NetworkCheck
 import com.ugaremin.portfoliowatcher.R
 import com.ugaremin.portfoliowatcher.adapter.StocksAdapter
 import com.ugaremin.portfoliowatcher.databinding.FragmentStocksBinding
@@ -45,6 +47,7 @@ class StocksFragment : Fragment() {
         adapter = StocksAdapter(requireContext(), emptyList())
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(activity)
+        binding.recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
 
         searchBarTextWatcher(binding.searchEditText)
 
@@ -91,7 +94,11 @@ class StocksFragment : Fragment() {
             adapter.setStocksSearch(stocks)
         })
 
-        viewModel.startDatabaseRequest()
+        if(NetworkCheck.isInternetAvailable(requireContext())){
+            viewModel.startDatabaseRequest()
+        }else{
+            Toast.makeText(requireContext(), getString(R.string.network_error), Toast.LENGTH_LONG).show()
+        }
 
         return view
     }

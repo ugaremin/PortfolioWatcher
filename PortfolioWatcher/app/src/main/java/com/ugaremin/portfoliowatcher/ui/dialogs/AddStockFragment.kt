@@ -6,14 +6,21 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.ugaremin.portfoliowatcher.AppDatabase
 import com.ugaremin.portfoliowatcher.R
+import com.ugaremin.portfoliowatcher.Stocks
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class AddStockFragment : Fragment() {
@@ -73,7 +80,7 @@ class AddStockFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {
                 s?.let {
                     val cost = it.toString()
-                    if (cost.isNotEmpty()) {
+                    if (cost.isNotEmpty() && dialogStockAmount?.text.toString() != "") {
                         val costFloat = cost.toFloatOrNull()
                         val amountString: String = dialogStockAmount?.text.toString()
                         val amountFloat = amountString.toFloatOrNull()
@@ -132,9 +139,36 @@ class AddStockFragment : Fragment() {
             dialog.dismiss()
         })
 
+        addButton?.setOnClickListener(View.OnClickListener {
+
+            val saveStockName = dialogStockName?.text.toString()
+            val saveStockAmount = dialogStockAmount?.text.toString().toInt()
+            val saveStockTotal = dialogStockTotal?.text.toString().toDouble()
+            val stock = Stocks(0, saveStockName, saveStockAmount ,saveStockTotal)
+            persistStock(stock)
+            dialog.dismiss()
+        })
+
+
+
 
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
+    }
+
+    private fun persistStock(stocks: Stocks){
+        GlobalScope.launch {
+            launch(Dispatchers.IO){
+                val userDao = AppDatabase.getInstance(requireContext()).stocksDao()
+                if(userDao.findStock(stocks.stock_name) == null){
+                    userDao.insert(stocks)
+                }else{
+                    launch (Dispatchers.Main){
+                        Toast.makeText(requireContext(), getString(R.string.already_exist), Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }
     }
 
 
