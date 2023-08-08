@@ -33,6 +33,18 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
         val changeTextView: TextView = itemView.findViewById(R.id.stockChangeTextViewPortfolio)
         val arrowIcon: ImageView = itemView.findViewById(R.id.arrow_icon_portfolio)
         val itemCheck: CheckBox = itemView.findViewById(R.id.checkBox)
+        val stockAmountTextView: TextView = itemView.findViewById(R.id.stockAmountTextViewPortfolio)
+        val stockCostTextView: TextView = itemView.findViewById(R.id.stockCostTextViewPortfolio)
+        val stockCurrentValueTextView: TextView = itemView.findViewById(R.id.stockCurrentValueTextViewPortfolio)
+        val stockProfitTextView: TextView = itemView.findViewById(R.id.stockCProfitTextViewPortfolio)
+
+        var stockAmount : Int? = null
+        var stockCost : Double? = null
+        var stockCurrentValue : Double? = null
+        var stockProfit: Double? = null
+        var stockLastValue: Double? = null
+        var resultLastValue: Double? = null
+        var resultProfit: Double? = null
 
         init {
             itemCheck.setOnClickListener {
@@ -56,12 +68,49 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
 
     @OptIn(DelicateCoroutinesApi::class)
     override fun onBindViewHolder(holder: PortfolioViewHolder, position: Int) {
+
         val stocks = stocks[position]
         holder.nameTextView.text = stocks.stockName.take(5)
-        holder.detailTextView.text = stocks.stockName.drop(5)
-        holder.lastValueTextView.text = stocks.lastValue
+        holder.detailTextView.text = stocks.stockName.drop(5).trim()
+        holder.lastValueTextView.text = stocks.lastValue.replace(',', '.')
+        holder.stockLastValue = stocks.lastValue.replace(',', '.').toDouble()
         holder.changeTextView.text = stocks.percentChange
         holder.itemCheck.isChecked = checkedItems.contains(position)
+
+
+
+
+        GlobalScope.launch {
+            launch(Dispatchers.IO){
+                val userDao = AppDatabase.getInstance(context).stocksDao()
+                val stock = userDao.getStockByName(holder.nameTextView.text.toString())
+                holder.stockAmount = stock?.stock_amount
+                holder.stockCost =  stock?.stock_total
+                holder.resultLastValue = holder.stockLastValue!! * holder.stockAmount!!
+                holder.resultProfit = holder.resultLastValue!! - holder.stockCost!!
+
+
+            }
+        }
+
+        GlobalScope.launch {
+            launch(Dispatchers.Main) {
+                holder.stockProfitTextView.text = String.format("%.2f", holder.resultProfit)
+
+                if(holder.stockProfitTextView.text.toString()[0] == '-'){
+                    holder.stockProfitTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.red))
+                }else{
+                    holder.stockProfitTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.green))
+                }
+
+                holder.stockCurrentValueTextView.text = holder.resultLastValue.toString()
+                holder.stockAmountTextView.text = holder.stockAmount.toString()
+                holder.stockCostTextView.text = holder.stockCost.toString()
+
+            }
+        }
+
+
 
         holder.itemCheck.setOnClickListener {
             if (holder.itemCheck.isChecked) {
