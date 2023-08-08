@@ -54,6 +54,7 @@ class PortfolioFragment : Fragment(), Listener {
         adapter = PortfolioAdapter(requireContext(), mutableList)
         binding.portfolioRecyclerView.adapter = adapter
         binding.portfolioRecyclerView.layoutManager = LinearLayoutManager(activity)
+        binding.portfolioRecyclerView.addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
 
 
         binding.deleteButton.setOnClickListener{
