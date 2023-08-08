@@ -9,6 +9,8 @@
     <string name="stock_name">Hisse Adı:</string>
     <string name="stock_cost">Maliyet:</string>
     <string name="stock_amount">Miktar:</string>
+    <string name="total_value">Toplam Değer:</string>
+    <string name="profit">Kâr:</string>
     <string name="total">Toplam:</string>
     <string name="add">Ekle</string>
     <string name="cancel">İptal</string>

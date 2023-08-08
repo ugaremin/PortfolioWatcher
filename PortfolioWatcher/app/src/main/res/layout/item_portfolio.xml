@@ -48,20 +48,44 @@
 
     <TextView
         android:id="@+id/stockAmountTextViewPortfolio"
-        android:layout_width="220dp"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/stockNameDetailTextViewPortfolio"
-        app:layout_constraintStart_toStartOf="@+id/stockNameTextViewPortfolio"
-        android:text="Amount: 5"
+        app:layout_constraintStart_toEndOf="@+id/stockAmountLabel"
+        android:layout_marginStart="5dp"
+        android:textColor="@color/black"
+        android:text="5"
         android:textSize="15sp" />
 
     <TextView
+        android:id="@+id/stockAmountLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/stockNameDetailTextViewPortfolio"
+        app:layout_constraintStart_toStartOf="@+id/stockNameTextViewPortfolio"
+        android:text="@string/stock_amount"
+        android:textSize="15sp" />
+
+
+
+    <TextView
         android:id="@+id/stockCostTextViewPortfolio"
-        android:layout_width="220dp"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/stockAmountTextViewPortfolio"
+        app:layout_constraintStart_toEndOf="@+id/stockCostLabel"
+        android:text="1000.23"
+        android:textColor="@color/black"
+        android:layout_marginStart="5dp"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/stockCostLabel"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/stockAmountTextViewPortfolio"
         app:layout_constraintStart_toStartOf="@+id/stockNameTextViewPortfolio"
-        android:text="Cost: 1000.23"
+        android:text="@string/stock_cost"
         android:textSize="15sp" />
 
     <TextView
@@ -104,6 +128,17 @@
         android:textColor="@color/black" />
 
     <TextView
+        android:id="@+id/stockLastValueLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/stockCurrentValueTextViewPortfolio"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/stockCurrentValueTextViewPortfolio"
+        android:layout_marginEnd="135dp"
+        android:text="@string/total_value"
+        android:textSize="15sp" />
+
+    <TextView
         android:id="@+id/stockCProfitTextViewPortfolio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -114,6 +149,17 @@
         android:textAlignment="viewEnd"
         android:textStyle="bold"
         android:textColor="@color/green" />
+
+    <TextView
+        android:id="@+id/stockProfitLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/stockCProfitTextViewPortfolio"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/stockCProfitTextViewPortfolio"
+        android:layout_marginEnd="135dp"
+        android:text="@string/profit"
+        android:textSize="15sp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
