@@ -103,9 +103,9 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
                     holder.stockProfitTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.green))
                 }
 
-                holder.stockCurrentValueTextView.text = holder.resultLastValue.toString()
+                holder.stockCurrentValueTextView.text = String.format("%.2f", holder.resultLastValue)
                 holder.stockAmountTextView.text = holder.stockAmount.toString()
-                holder.stockCostTextView.text = holder.stockCost.toString()
+                holder.stockCostTextView.text = String.format("%.2f", holder.stockCost)
 
             }
         }
