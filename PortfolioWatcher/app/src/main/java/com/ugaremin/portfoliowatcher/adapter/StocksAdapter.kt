@@ -52,9 +52,28 @@ class StocksAdapter(val context: Context, var stocks: List<StocksData>) : Recycl
         //Todo: Ekleme butonuna basıldığında alının aksiyon
         holder.addStock.setOnClickListener{
 
+            /*
             val itemName = stocks.stockName.take(5)
             val stock = Stocks(0,itemName)
             persistStock(stock)
+
+             */
+
+            val itemName = stocks.stockName.take(5)
+            val itemValue = stocks.lastValue
+
+            val fragment = AddStockFragment()
+            val bundle = Bundle()
+            bundle.putString("itemName", itemName)
+            bundle.putString("itemValue", itemValue)
+            fragment.arguments = bundle
+
+
+            val fragmentManager = (holder.addStock.context as AppCompatActivity).supportFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
+            fragmentTransaction.replace(R.id.container, fragment)
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
             holder.addStock.setImageResource(R.drawable.add_stock_success)
             holder.addStock.isClickable = false
 
@@ -82,17 +101,5 @@ class StocksAdapter(val context: Context, var stocks: List<StocksData>) : Recycl
         notifyDataSetChanged()
     }
 
-    private fun persistStock(stocks: Stocks){
-        GlobalScope.launch {
-            launch(Dispatchers.IO){
-                val userDao = AppDatabase.getInstance(context).stocksDao()
-                if(userDao.findStock(stocks.stock_name) == null){
-                    userDao.insert(stocks)
-                }
 
-
-            }
-
-        }
-    }
 }
