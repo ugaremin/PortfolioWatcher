@@ -40,8 +40,6 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
 
         var stockAmount : Int? = null
         var stockCost : Double? = null
-        var stockCurrentValue : Double? = null
-        var stockProfit: Double? = null
         var stockLastValue: Double? = null
         var resultLastValue: Double? = null
         var resultProfit: Double? = null
@@ -86,15 +84,15 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
                 val stock = userDao.getStockByName(holder.nameTextView.text.toString())
                 holder.stockAmount = stock?.stock_amount
                 holder.stockCost =  stock?.stock_total
-                holder.resultLastValue = holder.stockLastValue!! * holder.stockAmount!!
-                holder.resultProfit = holder.resultLastValue!! - holder.stockCost!!
-
 
             }
         }
 
         GlobalScope.launch {
             launch(Dispatchers.Main) {
+
+                holder.resultLastValue = holder.stockLastValue!! * holder.stockAmount!!
+                holder.resultProfit = holder.resultLastValue!! - holder.stockCost!!
                 holder.stockProfitTextView.text = String.format("%.2f", holder.resultProfit)
 
                 if(holder.stockProfitTextView.text.toString()[0] == '-'){

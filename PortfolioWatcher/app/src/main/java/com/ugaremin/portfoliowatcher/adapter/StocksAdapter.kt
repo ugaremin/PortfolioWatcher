@@ -74,8 +74,8 @@ class StocksAdapter(val context: Context, var stocks: List<StocksData>) : Recycl
             fragmentTransaction.replace(R.id.container, fragment)
             fragmentTransaction.addToBackStack(null)
             fragmentTransaction.commit()
-            holder.addStock.setImageResource(R.drawable.add_stock_success)
-            holder.addStock.isClickable = false
+          //  holder.addStock.setImageResource(R.drawable.add_stock_success)
+         //   holder.addStock.isClickable = false
 
 
         }

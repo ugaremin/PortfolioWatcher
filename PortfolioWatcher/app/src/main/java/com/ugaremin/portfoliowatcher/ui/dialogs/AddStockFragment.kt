@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.ugaremin.portfoliowatcher.AppDatabase
 import com.ugaremin.portfoliowatcher.R
@@ -79,7 +80,7 @@ class AddStockFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {
                 s?.let {
                     val cost = it.toString()
-                    if (cost.isNotEmpty()) {
+                    if (cost.isNotEmpty() && dialogStockAmount?.text.toString() != "") {
                         val costFloat = cost.toFloatOrNull()
                         val amountString: String = dialogStockAmount?.text.toString()
                         val amountFloat = amountString.toFloatOrNull()
@@ -162,7 +163,9 @@ class AddStockFragment : Fragment() {
                 if(userDao.findStock(stocks.stock_name) == null){
                     userDao.insert(stocks)
                 }else{
-                    Log.i("EMN", "stock already exist")
+                    launch (Dispatchers.Main){
+                        Toast.makeText(requireContext(), getString(R.string.already_exist), Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }
