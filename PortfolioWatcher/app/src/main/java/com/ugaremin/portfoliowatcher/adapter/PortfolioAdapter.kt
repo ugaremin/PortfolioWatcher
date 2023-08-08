@@ -91,20 +91,23 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
         GlobalScope.launch {
             launch(Dispatchers.Main) {
 
-                holder.resultLastValue = holder.stockLastValue!! * holder.stockAmount!!
-                holder.resultProfit = holder.resultLastValue!! - holder.stockCost!!
-                holder.stockProfitTextView.text = String.format("%.2f", holder.resultProfit)
+                if (holder.stockAmount != null && holder.stockCost != null){
+                    holder.resultLastValue = holder.stockLastValue!! * holder.stockAmount!!
+                    holder.resultProfit = holder.resultLastValue!! - holder.stockCost!!
+                    holder.stockProfitTextView.text = String.format("%.2f", holder.resultProfit)
 
-                if(holder.stockProfitTextView.text.toString()[0] == '-'){
-                    holder.stockProfitTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.red))
-                }else{
-                    holder.stockProfitTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.green))
+                    if(holder.stockProfitTextView.text.toString()[0] == '-'){
+                        holder.stockProfitTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.red))
+                    }else{
+                        holder.stockProfitTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.green))
+                    }
+
+                    holder.stockCurrentValueTextView.text = String.format("%.2f", holder.resultLastValue)
+                    holder.stockAmountTextView.text = holder.stockAmount.toString()
+                    holder.stockCostTextView.text = String.format("%.2f", holder.stockCost)
+
                 }
-
-                holder.stockCurrentValueTextView.text = String.format("%.2f", holder.resultLastValue)
-                holder.stockAmountTextView.text = holder.stockAmount.toString()
-                holder.stockCostTextView.text = String.format("%.2f", holder.stockCost)
-
+                
             }
         }
 
