@@ -44,8 +44,25 @@
         app:layout_constraintTop_toBottomOf="@+id/stockNameTextViewPortfolio"
         app:layout_constraintStart_toStartOf="@+id/stockNameTextViewPortfolio"
         android:text="Türk Hava Yolları"
-        android:textSize="15sp"
-        />
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/stockAmountTextViewPortfolio"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/stockNameDetailTextViewPortfolio"
+        app:layout_constraintStart_toStartOf="@+id/stockNameTextViewPortfolio"
+        android:text="Amount: 5"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/stockCostTextViewPortfolio"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/stockAmountTextViewPortfolio"
+        app:layout_constraintStart_toStartOf="@+id/stockNameTextViewPortfolio"
+        android:text="Cost: 1000.23"
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/stockLastValueTextViewPortfolio"
@@ -72,7 +89,31 @@
         android:textSize="16sp"
         android:textAlignment="viewEnd"
         android:textStyle="bold"
-        android:textColor="@color/green"
-        />
+        android:textColor="@color/green" />
+
+    <TextView
+        android:id="@+id/stockCurrentValueTextViewPortfolio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/stockChangeTextViewPortfolio"
+        app:layout_constraintEnd_toEndOf="@+id/stockLastValueTextViewPortfolio"
+        android:text="1500.12"
+        android:textSize="16sp"
+        android:textAlignment="viewEnd"
+        android:textStyle="bold"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/stockCProfitTextViewPortfolio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/stockCurrentValueTextViewPortfolio"
+        app:layout_constraintEnd_toEndOf="@+id/stockLastValueTextViewPortfolio"
+        android:text="1500.12"
+        android:textSize="16sp"
+        android:textAlignment="viewEnd"
+        android:textStyle="bold"
+        android:textColor="@color/green" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
