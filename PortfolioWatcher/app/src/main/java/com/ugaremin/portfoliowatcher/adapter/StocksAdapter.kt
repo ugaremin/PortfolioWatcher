@@ -2,8 +2,6 @@ package com.ugaremin.portfoliowatcher.adapter
 
 import android.content.Context
 import android.os.Bundle
-import android.provider.Settings.Global
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,16 +10,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.ugaremin.portfoliowatcher.AppDatabase
 import com.ugaremin.portfoliowatcher.R
-import com.ugaremin.portfoliowatcher.Stocks
-import com.ugaremin.portfoliowatcher.StocksDao
 import com.ugaremin.portfoliowatcher.data.StocksData
 import com.ugaremin.portfoliowatcher.ui.dialogs.AddStockFragment
-import com.ugaremin.portfoliowatcher.ui.portfolio.PortfolioFragment
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class StocksAdapter(val context: Context, var stocks: List<StocksData>) : RecyclerView.Adapter<StocksAdapter.ViewHolder>()  {
 
