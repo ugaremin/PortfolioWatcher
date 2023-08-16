@@ -63,7 +63,7 @@
         app:layout_constraintTop_toTopOf="@+id/stockCostTextView"
         android:inputType="numberDecimal"
         android:textSize="20sp"
-        android:background="@color/light_green"/>
+        android:background="@color/white"/>
 
     <TextView
         android:id="@+id/stockAmauntTextView"
@@ -85,7 +85,7 @@
         app:layout_constraintTop_toTopOf="@+id/stockAmauntTextView"
         android:inputType="number"
         android:textSize="20sp"
-        android:background="@color/light_green"/>
+        android:background="@color/white"/>
 
     <TextView
         android:id="@+id/totalTextView"
