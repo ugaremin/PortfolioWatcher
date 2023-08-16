@@ -34,7 +34,7 @@ class StocksAdapter(val context: Context, var stocks: List<StocksData>) : Recycl
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val stocks = stocks[position]
         holder.nameTextView.text = stocks.stockName.take(5)
-        holder.detailTextView.text = stocks.stockName.drop(5)
+        holder.detailTextView.text = stocks.stockName.drop(5).trim()
         holder.lastValueTextView.text = stocks.lastValue
         holder.changeTextView.text = stocks.percentChange
 
