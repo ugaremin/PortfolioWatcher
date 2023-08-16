@@ -27,6 +27,7 @@
         app:layout_constraintTop_toBottomOf="@id/titleTextView"
         android:text="@string/stock_name"
         android:textStyle="bold"
+        android:textColor="@color/black"
         android:layout_marginStart="30sp"
         android:layout_marginTop="6dp"
         android:textSize="20sp" />
@@ -51,6 +52,7 @@
         android:layout_marginTop="6dp"
         android:text="@string/stock_cost"
         android:textStyle="bold"
+        android:textColor="@color/black"
         android:textSize="20sp"/>
 
     <EditText
@@ -71,6 +73,7 @@
         app:layout_constraintEnd_toEndOf="@id/stockCostTextView"
         android:layout_marginTop="6dp"
         android:text="@string/stock_amount"
+        android:textColor="@color/black"
         android:textStyle="bold"
         android:textSize="20sp"/>
 
@@ -93,6 +96,7 @@
         android:layout_marginTop="6dp"
         android:text="@string/total"
         android:textStyle="bold"
+        android:textColor="@color/black"
         android:textSize="20sp"/>
 
     <TextView
