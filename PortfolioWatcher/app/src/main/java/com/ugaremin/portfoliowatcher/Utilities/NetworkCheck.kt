@@ -1,4 +1,4 @@
-package com.ugaremin.portfoliowatcher
+package com.ugaremin.portfoliowatcher.Utilities
 
 import android.content.Context
 import android.net.ConnectivityManager

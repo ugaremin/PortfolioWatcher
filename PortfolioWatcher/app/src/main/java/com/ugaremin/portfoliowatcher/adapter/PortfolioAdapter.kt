@@ -10,13 +10,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.ugaremin.portfoliowatcher.AppDatabase
-import com.ugaremin.portfoliowatcher.Listener
+import com.ugaremin.portfoliowatcher.data.Room.AppDatabase
+import com.ugaremin.portfoliowatcher.Utilities.Listener
 import com.ugaremin.portfoliowatcher.R
-import com.ugaremin.portfoliowatcher.Stocks
 import com.ugaremin.portfoliowatcher.data.StocksData
-import com.ugaremin.portfoliowatcher.ui.portfolio.PortfolioFragment
-import com.ugaremin.portfoliowatcher.ui.portfolio.PortfolioViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

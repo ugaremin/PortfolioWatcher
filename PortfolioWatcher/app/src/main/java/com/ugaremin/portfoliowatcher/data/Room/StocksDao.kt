@@ -1,4 +1,4 @@
-package com.ugaremin.portfoliowatcher
+package com.ugaremin.portfoliowatcher.data.Room
 
 import androidx.room.Dao
 import androidx.room.Delete

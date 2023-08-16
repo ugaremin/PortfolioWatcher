@@ -1,4 +1,4 @@
-package com.ugaremin.portfoliowatcher
+package com.ugaremin.portfoliowatcher.data.Room
 
 import android.content.Context
 import androidx.room.Database

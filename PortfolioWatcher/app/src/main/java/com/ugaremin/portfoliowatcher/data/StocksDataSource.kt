@@ -1,7 +1,7 @@
 package com.ugaremin.portfoliowatcher.data
 
 import android.content.Context
-import com.ugaremin.portfoliowatcher.AppDatabase
+import com.ugaremin.portfoliowatcher.data.Room.AppDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup

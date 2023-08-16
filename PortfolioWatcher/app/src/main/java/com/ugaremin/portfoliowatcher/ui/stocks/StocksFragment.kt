@@ -12,15 +12,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ugaremin.portfoliowatcher.NetworkCheck
+import com.ugaremin.portfoliowatcher.Utilities.NetworkCheck
 import com.ugaremin.portfoliowatcher.R
 import com.ugaremin.portfoliowatcher.adapter.StocksAdapter
 import com.ugaremin.portfoliowatcher.databinding.FragmentStocksBinding
