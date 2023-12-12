@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "929568297576",
+    "project_id": "portfoliowatcher-d4098",
+    "storage_bucket": "portfoliowatcher-d4098.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:929568297576:android:bc0557527543923ae6a1dd",
+        "android_client_info": {
+          "package_name": "com.ugaremin.portfoliowatcher"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlARstqDfC98GznF0l_rEklHHM5cheeA0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
