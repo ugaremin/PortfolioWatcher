@@ -16,6 +16,7 @@ import com.ugaremin.portfoliowatcher.data.Room.AppDatabase
 import com.ugaremin.portfoliowatcher.Utilities.Listener
 import com.ugaremin.portfoliowatcher.Utilities.NetworkCheck.Companion.isInternetAvailable
 import com.ugaremin.portfoliowatcher.R
+import com.ugaremin.portfoliowatcher.Utilities.CustomItemDecoration
 import com.ugaremin.portfoliowatcher.adapter.PortfolioAdapter
 import com.ugaremin.portfoliowatcher.data.StocksData
 import com.ugaremin.portfoliowatcher.databinding.FragmentPortfolioBinding
@@ -46,7 +47,9 @@ class PortfolioFragment : Fragment(), Listener {
         adapter = PortfolioAdapter(requireContext(), mutableList)
         binding.portfolioRecyclerView.adapter = adapter
         binding.portfolioRecyclerView.layoutManager = LinearLayoutManager(activity)
-        binding.portfolioRecyclerView.addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
+        val itemDecoration = CustomItemDecoration(resources.getDimensionPixelSize(R.dimen.item_offset), requireContext())
+        binding.portfolioRecyclerView.addItemDecoration(itemDecoration)
+
 
 
         binding.deleteButton.setOnClickListener{
