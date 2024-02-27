@@ -43,13 +43,6 @@ class StocksAdapter(val context: Context, var stocks: List<StocksData>) : Recycl
         //Todo: Ekleme butonuna basıldığında alının aksiyon
         holder.addStock.setOnClickListener{
 
-            /*
-            val itemName = stocks.stockName.take(5)
-            val stock = Stocks(0,itemName)
-            persistStock(stock)
-
-             */
-
             val itemName = stocks.stockName.take(5)
             val itemValue = stocks.lastValue
 
@@ -65,9 +58,6 @@ class StocksAdapter(val context: Context, var stocks: List<StocksData>) : Recycl
             fragmentTransaction.replace(R.id.container, fragment)
             fragmentTransaction.addToBackStack(null)
             fragmentTransaction.commit()
-          //  holder.addStock.setImageResource(R.drawable.add_stock_success)
-         //   holder.addStock.isClickable = false
-
 
         }
 
