@@ -18,4 +18,5 @@
     <string name="already_exist">Bu hisse portföyünüzde muvcut</string>
     <string name="network_error">İnternet Bağlantınızı kontrol edin</string>
     <string name="empt_list_warning_message">Henüz bir hisse senedi eklemediniz</string>
+    <string name="add_stock_error_message">Bir hata oluştu</string>
 </resources>

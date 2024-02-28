@@ -91,7 +91,7 @@ class AddStockFragment : Fragment() {
                         addButton?.isEnabled=true
 
                     } else {
-                        dialogStockTotal?.text = ""
+                        dialogStockTotal?.text = "0"
                         addButton?.isEnabled=false
                     }
                 }
@@ -119,7 +119,7 @@ class AddStockFragment : Fragment() {
                         }
                         addButton?.isEnabled=true
                     } else {
-                        dialogStockTotal?.text = ""
+                        dialogStockTotal?.text = "0"
                         addButton?.isEnabled=false
                     }
                 }
@@ -140,11 +140,16 @@ class AddStockFragment : Fragment() {
 
         addButton?.setOnClickListener(View.OnClickListener {
 
-            val saveStockName = dialogStockName?.text.toString()
-            val saveStockAmount = dialogStockAmount?.text.toString().toInt()
-            val saveStockTotal = dialogStockTotal?.text.toString().toDouble()
-            val stock = Stocks(0, saveStockName, saveStockAmount ,saveStockTotal)
-            persistStock(stock)
+            try {
+                val saveStockName = dialogStockName?.text.toString()
+                val saveStockAmount = dialogStockAmount?.text.toString().toInt()
+                val saveStockTotal = dialogStockTotal?.text.toString().toDouble()
+                val stock = Stocks(0, saveStockName, saveStockAmount ,saveStockTotal)
+                persistStock(stock)
+            }catch (e: NumberFormatException) {
+                Toast.makeText(requireContext(), getString(R.string.add_stock_error_message), Toast.LENGTH_SHORT).show()
+
+            }
             dialog.dismiss()
         })
 

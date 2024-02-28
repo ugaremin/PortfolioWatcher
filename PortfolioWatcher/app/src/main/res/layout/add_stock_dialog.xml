@@ -111,6 +111,7 @@
         app:layout_constraintTop_toTopOf="@id/totalTextView"
         app:layout_constraintStart_toStartOf="@id/stockNameTextView"
         android:textColor="@color/black"
+        android:text="0"
         android:textSize="20sp"/>
 
     <Button
