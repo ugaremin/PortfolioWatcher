@@ -38,7 +38,6 @@ class AddStockFragment : Fragment() {
     private var saveStockAmount: Int? = null
     private var saveStockTotal : Double? = null
     private lateinit var stock: Stocks
-    private var stockAlreadyExist: Boolean? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -147,10 +146,7 @@ class AddStockFragment : Fragment() {
                 saveStockAmount = dialogStockAmount?.text.toString().toInt()
                 saveStockTotal = dialogStockTotal?.text.toString().toDouble()
                 stock = Stocks(0, saveStockName, saveStockAmount!!, saveStockTotal!!)
-                stockAlreadyExist = viewModel.persistStock(requireContext(), stock)
-                if (stockAlreadyExist!!){
-                    Toast.makeText(requireContext(), getString(R.string.already_exist), Toast.LENGTH_LONG).show()
-                }
+                viewModel.persistStock(requireContext(), stock)
             }catch (e: NumberFormatException) {
                 Toast.makeText(requireContext(), getString(R.string.add_stock_error_message), Toast.LENGTH_SHORT).show()
 
