@@ -23,7 +23,7 @@ class StocksDataSource {
             val columns = row.select("td")
             if (columns.size >= 5) {
                 val stockName = columns[0].text().trim()
-                val lastValue = columns[3].text().trim()
+                val lastValue = columns[2].text().trim()
                 val percentChange = columns[6].text().trim()
                 val rowData = StocksData(stockName, lastValue, percentChange)
                 data.add(rowData)
@@ -47,7 +47,7 @@ class StocksDataSource {
             val columns = row.select("td")
             if (columns.size >= 5) {
                 val stockName = columns[0].text().trim()
-                val lastValue = columns[3].text().trim()
+                val lastValue = columns[2].text().trim()
                 val percentChange = columns[6].text().trim()
                 val name = stockName.take(5)
                 val user = AppDatabase.getInstance(context).stocksDao().findStock(name)
