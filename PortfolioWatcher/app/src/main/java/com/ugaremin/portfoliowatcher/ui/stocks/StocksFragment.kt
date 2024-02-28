@@ -46,7 +46,7 @@ class StocksFragment : Fragment() {
         adapter = StocksAdapter(requireContext(), emptyList())
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(activity)
-        val itemDecoration = CustomItemDecoration(resources.getDimensionPixelSize(R.dimen.item_offset), requireContext())
+        val itemDecoration = CustomItemDecoration(resources.getDimensionPixelSize(R.dimen.item_offset))
         binding.recyclerView.addItemDecoration(itemDecoration)
 
         searchBarTextWatcher(binding.searchEditText)

@@ -38,7 +38,7 @@ class PortfolioFragment : Fragment(){
         adapter = PortfolioAdapter(requireContext(), mutableList)
         binding.portfolioRecyclerView.adapter = adapter
         binding.portfolioRecyclerView.layoutManager = LinearLayoutManager(activity)
-        val itemDecoration = CustomItemDecoration(resources.getDimensionPixelSize(R.dimen.item_offset), requireContext())
+        val itemDecoration = CustomItemDecoration(resources.getDimensionPixelSize(R.dimen.item_offset))
         binding.portfolioRecyclerView.addItemDecoration(itemDecoration)
         viewModel = ViewModelProvider(this).get(PortfolioViewModel::class.java)
 
