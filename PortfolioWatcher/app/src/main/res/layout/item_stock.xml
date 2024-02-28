@@ -47,6 +47,7 @@
         app:layout_constraintStart_toStartOf="@+id/stockNameTextView"
         android:text="Türk Hava Yolları"
         android:fontFamily="@font/lato_regular"
+        android:maxLength="20"
         android:textSize="15sp" />
 
     <TextView

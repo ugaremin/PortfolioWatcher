@@ -18,7 +18,6 @@ import kotlinx.coroutines.launch
 
 class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>) : RecyclerView.Adapter<PortfolioAdapter.PortfolioViewHolder>() {
 
-    private val checkedItems = mutableSetOf<Int>()
     inner class PortfolioViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val nameTextView: TextView = itemView.findViewById(R.id.stockNameTextViewPortfolio)
@@ -54,8 +53,8 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
         val stocks = stocks[position]
         holder.nameTextView.text = stocks.stockName.take(5)
         holder.detailTextView.text = stocks.stockName.drop(5).trim()
-        holder.lastValueTextView.text = stocks.lastValue.replace(',', '.')
-        holder.stockLastValue = stocks.lastValue.replace(',', '.').toDouble()
+        holder.lastValueTextView.text = stocks.lastValue.replace(".", "").replace(',', '.')
+        holder.stockLastValue = stocks.lastValue.replace(".", "").replace(',', '.').toDouble()
         holder.changeTextView.text = stocks.percentChange
 
 
@@ -110,17 +109,6 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
     fun setStocksSearch(stocks: List<StocksData>) {
         this.stocks = stocks.toMutableList()
         notifyDataSetChanged()
-    }
-
-
-    fun getCheckedItems(): List<StocksData> {
-        val result = mutableListOf<StocksData>()
-        for (index in checkedItems) {
-            if (index >= 0 && index < stocks.size) {
-                result.add(stocks[index])
-            }
-        }
-        return result
     }
 
     fun deleteItem(position: Int) {

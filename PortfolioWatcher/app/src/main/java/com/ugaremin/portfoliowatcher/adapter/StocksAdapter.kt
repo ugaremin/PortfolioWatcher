@@ -35,7 +35,7 @@ class StocksAdapter(val context: Context, var stocks: List<StocksData>) : Recycl
         val stocks = stocks[position]
         holder.nameTextView.text = stocks.stockName.take(5)
         holder.detailTextView.text = stocks.stockName.drop(5).trim()
-        holder.lastValueTextView.text = stocks.lastValue
+        holder.lastValueTextView.text = stocks.lastValue.replace(".", "").replace(",", ".")
         holder.changeTextView.text = stocks.percentChange
 
 
@@ -44,7 +44,7 @@ class StocksAdapter(val context: Context, var stocks: List<StocksData>) : Recycl
         holder.addStock.setOnClickListener{
 
             val itemName = stocks.stockName.take(5)
-            val itemValue = stocks.lastValue
+            val itemValue = stocks.lastValue.replace(".", "").replace(",", ".")
 
             val fragment = AddStockFragment()
             val bundle = Bundle()
