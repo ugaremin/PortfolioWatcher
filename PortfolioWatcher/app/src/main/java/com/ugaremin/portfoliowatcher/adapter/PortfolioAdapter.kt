@@ -53,8 +53,8 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
         val stocks = stocks[position]
         holder.nameTextView.text = stocks.stockName.take(5)
         holder.detailTextView.text = stocks.stockName.drop(5).trim()
-        holder.lastValueTextView.text = stocks.lastValue.replace(',', '.')
-        holder.stockLastValue = stocks.lastValue.replace(',', '.').toDouble()
+        holder.lastValueTextView.text = stocks.lastValue.replace(".", "").replace(',', '.')
+        holder.stockLastValue = stocks.lastValue.replace(".", "").replace(',', '.').toDouble()
         holder.changeTextView.text = stocks.percentChange
 
 

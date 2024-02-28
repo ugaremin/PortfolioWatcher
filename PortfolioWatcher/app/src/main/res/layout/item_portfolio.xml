@@ -37,6 +37,7 @@
         app:layout_constraintTop_toBottomOf="@+id/stockNameTextViewPortfolio"
         app:layout_constraintStart_toStartOf="@+id/stockNameTextViewPortfolio"
         android:text="Türk Hava Yolları"
+        android:maxLength="20"
         android:fontFamily="@font/lato_regular"
         android:textSize="15sp" />
 
