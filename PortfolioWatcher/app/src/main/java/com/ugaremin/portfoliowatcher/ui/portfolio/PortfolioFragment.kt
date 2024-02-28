@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ugaremin.portfoliowatcher.data.Room.AppDatabase
@@ -18,6 +19,7 @@ import com.ugaremin.portfoliowatcher.Utilities.NetworkCheck.Companion.isInternet
 import com.ugaremin.portfoliowatcher.R
 import com.ugaremin.portfoliowatcher.Utilities.CustomItemDecoration
 import com.ugaremin.portfoliowatcher.adapter.PortfolioAdapter
+import com.ugaremin.portfoliowatcher.adapter.SwipeToDeleteCallback
 import com.ugaremin.portfoliowatcher.data.StocksData
 import com.ugaremin.portfoliowatcher.databinding.FragmentPortfolioBinding
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -72,6 +74,9 @@ class PortfolioFragment : Fragment(), Listener {
         }else{
             Toast.makeText(requireContext(), getString(R.string.network_error), Toast.LENGTH_LONG).show()
         }
+
+        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(adapter))
+        itemTouchHelper.attachToRecyclerView(binding.portfolioRecyclerView)
 
         return view
     }

@@ -150,6 +150,17 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
         return result
     }
 
+    fun deleteItem(position: Int) {
+        val stockName = stocks[position].stockName.take(5)
+        GlobalScope.launch {
+            launch (Dispatchers.IO){
+                AppDatabase.getInstance(context).stocksDao().deleteStockByStockName(stockName)
+            }
+        }
+        stocks.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
     fun deleteSelectedItems() {
         val sortedSelectedItems = checkedItems.toList().sortedDescending()
         for (position in sortedSelectedItems) {
