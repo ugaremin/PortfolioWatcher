@@ -16,14 +16,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginStart="20dp"/>
 
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="15dp"/>
 
     <TextView
         android:id="@+id/stockNameTextViewPortfolio"
@@ -95,7 +87,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/checkBox"
+        android:layout_marginEnd="40dp"
         android:text="123,123"
         android:textAlignment="viewEnd"
         android:textColor="@color/black"
@@ -135,7 +127,7 @@
         app:layout_constraintTop_toTopOf="@+id/stockCurrentValueTextViewPortfolio"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/stockCurrentValueTextViewPortfolio"
-        android:layout_marginEnd="135dp"
+        android:layout_marginEnd="120dp"
         android:text="@string/total_value"
         android:textSize="15sp" />
 
@@ -155,10 +147,9 @@
         android:id="@+id/stockProfitLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/stockLastValueLabel"
         app:layout_constraintTop_toTopOf="@+id/stockCProfitTextViewPortfolio"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/stockCProfitTextViewPortfolio"
-        android:layout_marginEnd="135dp"
         android:text="@string/profit"
         android:textSize="15sp" />
 

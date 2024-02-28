@@ -17,4 +17,5 @@
     <string name="delete">Delete</string>
     <string name="already_exist">This stock already exists in your portfolio</string>
     <string name="network_error">Check your Internet Connection</string>
+    <string name="empt_list_warning_message">You have not added any stocks yet</string>
 </resources>
