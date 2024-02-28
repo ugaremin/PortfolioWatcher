@@ -35,6 +35,11 @@ class AddStockFragment : Fragment() {
     private var addButton: Button? = null
     private var cancelButton: Button? = null
 
+    private lateinit var saveStockName: String
+    private var saveStockAmount: Int? = null
+    private var saveStockTotal : Double? = null
+    private lateinit var stock: Stocks
+
 
 
 
@@ -141,10 +146,10 @@ class AddStockFragment : Fragment() {
         addButton?.setOnClickListener(View.OnClickListener {
 
             try {
-                val saveStockName = dialogStockName?.text.toString()
-                val saveStockAmount = dialogStockAmount?.text.toString().toInt()
-                val saveStockTotal = dialogStockTotal?.text.toString().toDouble()
-                val stock = Stocks(0, saveStockName, saveStockAmount ,saveStockTotal)
+                saveStockName = dialogStockName?.text.toString()
+                saveStockAmount = dialogStockAmount?.text.toString().toInt()
+                saveStockTotal = dialogStockTotal?.text.toString().toDouble()
+                stock = Stocks(0, saveStockName, saveStockAmount!!, saveStockTotal!!)
                 persistStock(stock)
             }catch (e: NumberFormatException) {
                 Toast.makeText(requireContext(), getString(R.string.add_stock_error_message), Toast.LENGTH_SHORT).show()
