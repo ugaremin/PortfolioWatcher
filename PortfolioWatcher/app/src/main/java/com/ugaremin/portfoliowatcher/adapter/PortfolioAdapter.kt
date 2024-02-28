@@ -1,17 +1,14 @@
 package com.ugaremin.portfoliowatcher.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ugaremin.portfoliowatcher.data.Room.AppDatabase
-import com.ugaremin.portfoliowatcher.Utilities.Listener
 import com.ugaremin.portfoliowatcher.R
 import com.ugaremin.portfoliowatcher.data.StocksData
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -29,7 +26,6 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
         val lastValueTextView: TextView = itemView.findViewById(R.id.stockLastValueTextViewPortfolio)
         val changeTextView: TextView = itemView.findViewById(R.id.stockChangeTextViewPortfolio)
         val arrowIcon: ImageView = itemView.findViewById(R.id.arrow_icon_portfolio)
-        val itemCheck: CheckBox = itemView.findViewById(R.id.checkBox)
         val stockAmountTextView: TextView = itemView.findViewById(R.id.stockAmountTextViewPortfolio)
         val stockCostTextView: TextView = itemView.findViewById(R.id.stockCostTextViewPortfolio)
         val stockCurrentValueTextView: TextView = itemView.findViewById(R.id.stockCurrentValueTextViewPortfolio)
@@ -40,15 +36,6 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
         var stockLastValue: Double? = null
         var resultLastValue: Double? = null
         var resultProfit: Double? = null
-
-        init {
-            itemCheck.setOnClickListener {
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    (itemView.context as? Listener)?.onItemClicked(position)
-                }
-            }
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PortfolioViewHolder {
@@ -70,8 +57,6 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
         holder.lastValueTextView.text = stocks.lastValue.replace(',', '.')
         holder.stockLastValue = stocks.lastValue.replace(',', '.').toDouble()
         holder.changeTextView.text = stocks.percentChange
-        holder.itemCheck.isChecked = checkedItems.contains(position)
-
 
 
 
@@ -109,18 +94,6 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
         }
 
 
-
-        holder.itemCheck.setOnClickListener {
-            if (holder.itemCheck.isChecked) {
-                checkedItems.add(position)
-                Log.d("EMN" , "EKLENDİ")
-            } else {
-                checkedItems.remove(position)
-                Log.d("EMN" , "SİLİNDİ !!!")
-            }
-        }
-
-
         val percentChange = stocks.percentChange
         if (percentChange[1] == '-') {
             holder.changeTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.red))
@@ -150,15 +123,15 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
         return result
     }
 
-    fun deleteSelectedItems() {
-        val sortedSelectedItems = checkedItems.toList().sortedDescending()
-        for (position in sortedSelectedItems) {
-            stocks.removeAt(position)
-            notifyItemRemoved(position)
+    fun deleteItem(position: Int) {
+        val stockName = stocks[position].stockName.take(5)
+        GlobalScope.launch {
+            launch (Dispatchers.IO){
+                AppDatabase.getInstance(context).stocksDao().deleteStockByStockName(stockName)
+            }
         }
-        if(checkedItems.size != 0){
-            checkedItems.clear()
-        }
-        
+        stocks.removeAt(position)
+        notifyItemRemoved(position)
     }
+
 }

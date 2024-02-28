@@ -2,8 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="6dp"
-    android:paddingBottom="6dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
+    android:background="@drawable/recycler_item_shape"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
@@ -15,14 +16,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginStart="20dp"/>
 
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="15dp"/>
 
     <TextView
         android:id="@+id/stockNameTextViewPortfolio"
@@ -32,8 +25,8 @@
         app:layout_constraintStart_toEndOf="@+id/arrow_icon_portfolio"
         android:text="THYAO"
         android:textSize="20sp"
-        android:layout_marginLeft="10dp"
-        android:textStyle="bold"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/lato_bold"
         android:textColor="@color/black"
         />
 
@@ -44,26 +37,29 @@
         app:layout_constraintTop_toBottomOf="@+id/stockNameTextViewPortfolio"
         app:layout_constraintStart_toStartOf="@+id/stockNameTextViewPortfolio"
         android:text="Türk Hava Yolları"
+        android:fontFamily="@font/lato_regular"
         android:textSize="15sp" />
 
     <TextView
         android:id="@+id/stockAmountTextViewPortfolio"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/stockNameDetailTextViewPortfolio"
+        app:layout_constraintTop_toTopOf="@id/stockAmountLabel"
         app:layout_constraintStart_toEndOf="@+id/stockAmountLabel"
         android:layout_marginStart="5dp"
         android:textColor="@color/black"
         android:text="5"
+        android:fontFamily="@font/lato_bold"
         android:textSize="15sp" />
 
     <TextView
         android:id="@+id/stockAmountLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/stockNameDetailTextViewPortfolio"
+        app:layout_constraintTop_toTopOf="@id/stockLastValueLabel"
         app:layout_constraintStart_toStartOf="@+id/stockNameTextViewPortfolio"
         android:text="@string/stock_amount"
+        android:fontFamily="@font/lato_regular"
         android:textSize="15sp" />
 
 
@@ -72,36 +68,36 @@
         android:id="@+id/stockCostTextViewPortfolio"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/stockAmountTextViewPortfolio"
+        app:layout_constraintTop_toTopOf="@id/stockCostLabel"
         app:layout_constraintStart_toEndOf="@+id/stockCostLabel"
         android:text="1000.23"
         android:textColor="@color/black"
         android:layout_marginStart="5dp"
+        android:fontFamily="@font/lato_bold"
         android:textSize="15sp" />
 
     <TextView
         android:id="@+id/stockCostLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/stockAmountTextViewPortfolio"
+        app:layout_constraintTop_toTopOf="@id/stockProfitLabel"
         app:layout_constraintStart_toStartOf="@+id/stockNameTextViewPortfolio"
         android:text="@string/stock_cost"
+        android:fontFamily="@font/lato_regular"
         android:textSize="15sp" />
 
     <TextView
         android:id="@+id/stockLastValueTextViewPortfolio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/stockNameTextViewPortfolio"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/checkBox"
+        android:layout_marginEnd="20dp"
         android:text="123,123"
         android:textAlignment="viewEnd"
         android:textColor="@color/black"
-        android:layout_marginRight="10dp"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        />
+        android:fontFamily="@font/lato_bold"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/stockChangeTextViewPortfolio"
@@ -112,7 +108,7 @@
         android:text="%1,12"
         android:textSize="16sp"
         android:textAlignment="viewEnd"
-        android:textStyle="bold"
+        android:fontFamily="@font/lato_bold"
         android:textColor="@color/green" />
 
     <TextView
@@ -124,7 +120,7 @@
         android:text="1500.12"
         android:textSize="16sp"
         android:textAlignment="viewEnd"
-        android:textStyle="bold"
+        android:fontFamily="@font/lato_bold"
         android:textColor="@color/black" />
 
     <TextView
@@ -134,8 +130,9 @@
         app:layout_constraintTop_toTopOf="@+id/stockCurrentValueTextViewPortfolio"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/stockCurrentValueTextViewPortfolio"
-        android:layout_marginEnd="135dp"
+        android:layout_marginEnd="110dp"
         android:text="@string/total_value"
+        android:fontFamily="@font/lato_regular"
         android:textSize="15sp" />
 
     <TextView
@@ -147,18 +144,18 @@
         android:text="1500.12"
         android:textSize="16sp"
         android:textAlignment="viewEnd"
-        android:textStyle="bold"
+        android:fontFamily="@font/lato_bold"
         android:textColor="@color/green" />
 
     <TextView
         android:id="@+id/stockProfitLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/stockLastValueLabel"
         app:layout_constraintTop_toTopOf="@+id/stockCProfitTextViewPortfolio"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/stockCProfitTextViewPortfolio"
-        android:layout_marginEnd="135dp"
         android:text="@string/profit"
+        android:fontFamily="@font/lato_regular"
         android:textSize="15sp" />
 
 

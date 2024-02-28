@@ -14,15 +14,14 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.ugaremin.portfoliowatcher.data.Room.AppDatabase
+import androidx.lifecycle.ViewModelProvider
 import com.ugaremin.portfoliowatcher.R
 import com.ugaremin.portfoliowatcher.data.Room.Stocks
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 
 class AddStockFragment : Fragment() {
+
+    private lateinit var viewModel: AddStockViewModel
 
     private var builder: AlertDialog.Builder? = null
     private lateinit var stockName: String
@@ -35,14 +34,17 @@ class AddStockFragment : Fragment() {
     private var addButton: Button? = null
     private var cancelButton: Button? = null
 
-
-
-
+    private lateinit var saveStockName: String
+    private var saveStockAmount: Int? = null
+    private var saveStockTotal : Double? = null
+    private lateinit var stock: Stocks
+    private var stockAlreadyExist: Boolean? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_add_stock, container, false)
+        viewModel = ViewModelProvider(this).get(AddStockViewModel::class.java)
 
         val itemName = arguments?.getString("itemName")
         val itemValue = arguments?.getString("itemValue")
@@ -91,7 +93,7 @@ class AddStockFragment : Fragment() {
                         addButton?.isEnabled=true
 
                     } else {
-                        dialogStockTotal?.text = ""
+                        dialogStockTotal?.text = "0"
                         addButton?.isEnabled=false
                     }
                 }
@@ -119,7 +121,7 @@ class AddStockFragment : Fragment() {
                         }
                         addButton?.isEnabled=true
                     } else {
-                        dialogStockTotal?.text = ""
+                        dialogStockTotal?.text = "0"
                         addButton?.isEnabled=false
                     }
                 }
@@ -140,35 +142,24 @@ class AddStockFragment : Fragment() {
 
         addButton?.setOnClickListener(View.OnClickListener {
 
-            val saveStockName = dialogStockName?.text.toString()
-            val saveStockAmount = dialogStockAmount?.text.toString().toInt()
-            val saveStockTotal = dialogStockTotal?.text.toString().toDouble()
-            val stock = Stocks(0, saveStockName, saveStockAmount ,saveStockTotal)
-            persistStock(stock)
+            try {
+                saveStockName = dialogStockName?.text.toString()
+                saveStockAmount = dialogStockAmount?.text.toString().toInt()
+                saveStockTotal = dialogStockTotal?.text.toString().toDouble()
+                stock = Stocks(0, saveStockName, saveStockAmount!!, saveStockTotal!!)
+                stockAlreadyExist = viewModel.persistStock(requireContext(), stock)
+                if (stockAlreadyExist!!){
+                    Toast.makeText(requireContext(), getString(R.string.already_exist), Toast.LENGTH_LONG).show()
+                }
+            }catch (e: NumberFormatException) {
+                Toast.makeText(requireContext(), getString(R.string.add_stock_error_message), Toast.LENGTH_SHORT).show()
+
+            }
             dialog.dismiss()
         })
-
-
-
 
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
     }
-
-    private fun persistStock(stocks: Stocks){
-        GlobalScope.launch {
-            launch(Dispatchers.IO){
-                val userDao = AppDatabase.getInstance(requireContext()).stocksDao()
-                if(userDao.findStock(stocks.stock_name) == null){
-                    userDao.insert(stocks)
-                }else{
-                    launch (Dispatchers.Main){
-                        Toast.makeText(requireContext(), getString(R.string.already_exist), Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
-        }
-    }
-
 
 }

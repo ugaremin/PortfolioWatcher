@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ugaremin.portfoliowatcher.Utilities.NetworkCheck
 import com.ugaremin.portfoliowatcher.R
+import com.ugaremin.portfoliowatcher.Utilities.CustomItemDecoration
 import com.ugaremin.portfoliowatcher.adapter.StocksAdapter
 import com.ugaremin.portfoliowatcher.databinding.FragmentStocksBinding
 
@@ -45,7 +46,8 @@ class StocksFragment : Fragment() {
         adapter = StocksAdapter(requireContext(), emptyList())
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(activity)
-        binding.recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
+        val itemDecoration = CustomItemDecoration(resources.getDimensionPixelSize(R.dimen.item_offset))
+        binding.recyclerView.addItemDecoration(itemDecoration)
 
         searchBarTextWatcher(binding.searchEditText)
 
@@ -73,14 +75,6 @@ class StocksFragment : Fragment() {
             override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {}
             override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
         })
-
-
-        binding.recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                activity?.baseContext,
-                (binding.recyclerView.layoutManager as LinearLayoutManager).orientation
-            )
-        )
 
 
 
