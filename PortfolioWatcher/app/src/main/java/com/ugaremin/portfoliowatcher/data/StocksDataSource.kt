@@ -70,7 +70,7 @@ class StocksDataSource {
         return data
     }
 
-    suspend fun getStocksDetail(stockUrl: String): MutableList<StockDetailData> {
+    suspend fun getStocksDetail(stockUrl: String){
         val url = stockUrl
         val doc = withContext(Dispatchers.IO) {
             Jsoup.connect(url).get()
@@ -79,7 +79,6 @@ class StocksDataSource {
         val table = doc.select("table")
         val tableRows = table.select("tr")
 
-        val data = mutableListOf<StockDetailData>()
 
         for (row in tableRows) {
             val columns = row.select("td")
@@ -87,11 +86,12 @@ class StocksDataSource {
                 val weeklyChange = columns[1].text().trim()
                 val monthlyChange = columns[2].text().trim()
                 val yearlyChange = columns[3].text().trim()
-                Log.i("EMN", "weeklyChange: $weeklyChange monthlyChange: $monthlyChange yearlyChange: $yearlyChange")
-                val rowData = StockDetailData(weeklyChange, monthlyChange, yearlyChange)
-                data.add(rowData)
+
+                StockDetailData.weeklyChange = weeklyChange
+                StockDetailData.monthlyChange = monthlyChange
+                StockDetailData.yearlyChange = yearlyChange
+                Log.i("EMN", "weeklyChange: ${StockDetailData.weeklyChange} monthlyChange: ${StockDetailData.monthlyChange} yearlyChange: ${StockDetailData.yearlyChange}")
             }
         }
-        return data
     }
 }
