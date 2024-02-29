@@ -13,13 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ugaremin.portfoliowatcher.Utilities.NetworkCheck.Companion.isInternetAvailable
 import com.ugaremin.portfoliowatcher.R
 import com.ugaremin.portfoliowatcher.Utilities.CustomItemDecoration
+import com.ugaremin.portfoliowatcher.Utilities.RecyclerViewClickListener
 import com.ugaremin.portfoliowatcher.adapter.PortfolioAdapter
 import com.ugaremin.portfoliowatcher.adapter.SwipeToDeleteCallback
 import com.ugaremin.portfoliowatcher.data.StocksData
 import com.ugaremin.portfoliowatcher.databinding.FragmentPortfolioBinding
 
 
-class PortfolioFragment : Fragment(){
+class PortfolioFragment : Fragment(), RecyclerViewClickListener {
 
     private lateinit var viewModel: PortfolioViewModel
     private lateinit var adapter: PortfolioAdapter
@@ -35,7 +36,7 @@ class PortfolioFragment : Fragment(){
         _binding = FragmentPortfolioBinding.inflate(inflater, container, false)
         val view = binding.root
         val mutableList = mutableListOf<StocksData>()
-        adapter = PortfolioAdapter(requireContext(), mutableList)
+        adapter = PortfolioAdapter(requireContext(), mutableList, this)
         binding.portfolioRecyclerView.adapter = adapter
         binding.portfolioRecyclerView.layoutManager = LinearLayoutManager(activity)
         val itemDecoration = CustomItemDecoration(resources.getDimensionPixelSize(R.dimen.item_offset))
@@ -69,6 +70,11 @@ class PortfolioFragment : Fragment(){
         super.onDestroyView()
         viewModel.stopDatabaseRequest()
         _binding = null
+    }
+
+    override fun onClick(position: Int) {
+        val getUrl = adapter.stocks[position].stockUrl
+        viewModel.uploadStocksDetail(getUrl)
     }
 
 }

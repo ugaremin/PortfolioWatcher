@@ -10,15 +10,22 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ugaremin.portfoliowatcher.data.Room.AppDatabase
 import com.ugaremin.portfoliowatcher.R
+import com.ugaremin.portfoliowatcher.Utilities.RecyclerViewClickListener
 import com.ugaremin.portfoliowatcher.data.StocksData
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>) : RecyclerView.Adapter<PortfolioAdapter.PortfolioViewHolder>() {
+class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>, private val listener: RecyclerViewClickListener) : RecyclerView.Adapter<PortfolioAdapter.PortfolioViewHolder>() {
 
-    inner class PortfolioViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class PortfolioViewHolder(itemView: View, private val listener: RecyclerViewClickListener) : RecyclerView.ViewHolder(itemView) {
+
+        init {
+            itemView.setOnClickListener {
+                listener.onClick(adapterPosition)
+            }
+        }
 
         val nameTextView: TextView = itemView.findViewById(R.id.stockNameTextViewPortfolio)
         val detailTextView: TextView = itemView.findViewById(R.id.stockNameDetailTextViewPortfolio)
@@ -39,7 +46,7 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PortfolioViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_portfolio, parent, false)
-        return PortfolioViewHolder(view)
+        return PortfolioViewHolder(view, listener)
     }
 
 
