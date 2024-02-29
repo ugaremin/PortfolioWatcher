@@ -11,12 +11,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ugaremin.portfoliowatcher.R
+import com.ugaremin.portfoliowatcher.Utilities.RecyclerViewClickListener
 import com.ugaremin.portfoliowatcher.data.StocksData
 import com.ugaremin.portfoliowatcher.ui.dialogs.AddStockFragment
 
-class StocksAdapter(val context: Context, var stocks: List<StocksData>) : RecyclerView.Adapter<StocksAdapter.ViewHolder>()  {
+class StocksAdapter(val context: Context, var stocks: List<StocksData>, private val listener: RecyclerViewClickListener) : RecyclerView.Adapter<StocksAdapter.ViewHolder>()  {
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View, private val listener: RecyclerViewClickListener) : RecyclerView.ViewHolder(itemView) {
+
+        init {
+            itemView.setOnClickListener {
+                listener.onClick(adapterPosition)
+            }
+        }
 
         val nameTextView: TextView = itemView.findViewById(R.id.stockNameTextView)
         val detailTextView: TextView = itemView.findViewById(R.id.stockNameDetailTextView)
@@ -28,7 +35,7 @@ class StocksAdapter(val context: Context, var stocks: List<StocksData>) : Recycl
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_stock, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(view, listener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

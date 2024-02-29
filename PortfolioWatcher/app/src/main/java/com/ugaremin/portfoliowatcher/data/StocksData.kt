@@ -1,3 +1,3 @@
 package com.ugaremin.portfoliowatcher.data
 
-data class StocksData(val stockName: String, val lastValue: String, val percentChange: String)
+data class StocksData(val stockName: String, val lastValue: String, val percentChange: String, val stockUrl: String)
