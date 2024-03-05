@@ -19,4 +19,9 @@
     <string name="network_error">Check your Internet Connection</string>
     <string name="empt_list_warning_message">You have not added any stocks yet</string>
     <string name="add_stock_error_message">Something went wrong</string>
+    <string name="stock_change_detail_header">Change Rates</string>
+    <string name="stock_change_weekly_header">Weekly</string>
+    <string name="stock_change_monthly_header">Monthly</string>
+    <string name="stock_change_yearly_header">Yearly</string>
+
 </resources>

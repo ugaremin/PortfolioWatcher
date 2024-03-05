@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/changesHeaderName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="THYAO"
+        android:fontFamily="@font/lato_bold"
+        android:textColor="@color/black"
+        android:textSize="18sp"/>
+
+
+
+    <TextView
+        android:id="@+id/weeklyHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/monthlyHeader"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/monthlyHeader"
+        android:text="@string/stock_change_weekly_header"
+        android:fontFamily="@font/sf_med"
+        android:textColor="@color/grey"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/monthlyHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/changesHeaderName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="15dp"
+        android:text="@string/stock_change_monthly_header"
+        android:fontFamily="@font/sf_med"
+        android:textColor="@color/grey"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/yearlyHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/monthlyHeader"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/monthlyHeader"
+        android:text="@string/stock_change_yearly_header"
+        android:fontFamily="@font/sf_med"
+        android:textColor="@color/grey"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/weeklyTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/weeklyHeader"
+        app:layout_constraintStart_toStartOf="@id/weeklyHeader"
+        app:layout_constraintEnd_toEndOf="@id/weeklyHeader"
+        android:text="%30"
+        android:fontFamily="@font/lato_bold"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/mounthlyTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/monthlyHeader"
+        app:layout_constraintStart_toStartOf="@id/monthlyHeader"
+        app:layout_constraintEnd_toEndOf="@id/monthlyHeader"
+        android:text="%30"
+        android:fontFamily="@font/lato_bold"
+        android:textSize="16sp"/>
+
+
+    <TextView
+        android:id="@+id/yearlyTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/yearlyHeader"
+        app:layout_constraintStart_toStartOf="@id/yearlyHeader"
+        app:layout_constraintEnd_toEndOf="@id/yearlyHeader"
+        android:text="%30"
+        android:fontFamily="@font/lato_bold"
+        android:textSize="16sp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
