@@ -123,6 +123,11 @@ class StocksFragment : Fragment() {
 
             override fun afterTextChanged(s: Editable?) {
                 val query = s.toString()
+                if(s.toString() != ""){
+                    viewModel.stopDatabaseRequest()
+                }else{
+                    viewModel.startDatabaseRequest()
+                }
                 performSearch(query)
             }
         })
