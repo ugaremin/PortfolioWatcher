@@ -1,8 +1,11 @@
 package com.ugaremin.portfoliowatcher.ui.stocks
 
 import android.os.Handler
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.ugaremin.portfoliowatcher.data.StockDetailData
 import com.ugaremin.portfoliowatcher.data.StocksData
 import com.ugaremin.portfoliowatcher.data.StocksDataSource
 import kotlinx.coroutines.Dispatchers
@@ -37,10 +40,18 @@ class StocksViewModel : ViewModel() {
     }
 
     fun uploadStocksData() {
-        GlobalScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             val dataSource = StocksDataSource()
             val stocks = dataSource.getStocksData()
             stocksLiveData.postValue(stocks)
+        }
+    }
+
+    fun uploadStockDetail(stockUrl: String, completion: () -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val dataSource = StocksDataSource()
+            dataSource.getStocksDetail(stockUrl)
+            completion()
         }
     }
 }

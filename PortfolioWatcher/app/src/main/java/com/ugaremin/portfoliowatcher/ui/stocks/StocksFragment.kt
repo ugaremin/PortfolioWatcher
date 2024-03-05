@@ -5,6 +5,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -21,11 +22,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ugaremin.portfoliowatcher.Utilities.NetworkCheck
 import com.ugaremin.portfoliowatcher.R
 import com.ugaremin.portfoliowatcher.Utilities.CustomItemDecoration
+import com.ugaremin.portfoliowatcher.adapter.StockItemClickListener
 import com.ugaremin.portfoliowatcher.adapter.StocksAdapter
+import com.ugaremin.portfoliowatcher.data.StockDetailData
+import com.ugaremin.portfoliowatcher.data.StocksData
 import com.ugaremin.portfoliowatcher.databinding.FragmentStocksBinding
 
 
-class StocksFragment : Fragment() {
+class StocksFragment : Fragment(), StockItemClickListener {
 
     private lateinit var viewModel: StocksViewModel
     private lateinit var recyclerView: RecyclerView
@@ -43,7 +47,7 @@ class StocksFragment : Fragment() {
         _binding = FragmentStocksBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        adapter = StocksAdapter(requireContext(), emptyList())
+        adapter = StocksAdapter(requireContext(), emptyList(), this)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(activity)
         val itemDecoration = CustomItemDecoration(resources.getDimensionPixelSize(R.dimen.item_offset))
@@ -132,6 +136,14 @@ class StocksFragment : Fragment() {
             }
         })
 
+    }
+
+    override fun onItemClick(item: StocksData) {
+        Log.d("EMN", "Item clicked: ${item.stockUrl}")
+        viewModel.uploadStockDetail(item.stockUrl){
+            Log.d("EMN", "Stock Detail -> weekly: ${StockDetailData.weeklyChange} -- monthly: ${StockDetailData.monthlyChange} -- yearly: ${StockDetailData.yearlyChange}")
+
+        }
     }
 
 }
