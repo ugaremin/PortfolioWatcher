@@ -5,6 +5,7 @@ import android.os.Handler
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.ugaremin.portfoliowatcher.data.StocksData
 import com.ugaremin.portfoliowatcher.data.StocksDataSource
 import kotlinx.coroutines.Dispatchers
@@ -55,6 +56,14 @@ class PortfolioViewModel : ViewModel() {
             val dataSource = StocksDataSource()
             val stocks = dataSource.getPortfolioData(context)
             stocksLiveData.postValue(stocks.toMutableList())
+        }
+    }
+
+    fun uploadStockDetail(stockUrl: String, stockName: String, completion: () -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val dataSource = StocksDataSource()
+            dataSource.getStocksDetail(stockUrl, stockName)
+            completion()
         }
     }
 }

@@ -16,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>) : RecyclerView.Adapter<PortfolioAdapter.PortfolioViewHolder>() {
+class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>, private val listener: StockItemClickListener) : RecyclerView.Adapter<PortfolioAdapter.PortfolioViewHolder>() {
 
     inner class PortfolioViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -51,6 +51,9 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
     override fun onBindViewHolder(holder: PortfolioViewHolder, position: Int) {
 
         val stocks = stocks[position]
+        holder.itemView.setOnClickListener {
+            listener.onItemClick(stocks)
+        }
         holder.nameTextView.text = stocks.stockName.take(5)
         holder.detailTextView.text = stocks.stockName.drop(5).trim()
         holder.lastValueTextView.text = stocks.lastValue.replace(".", "").replace(',', '.')

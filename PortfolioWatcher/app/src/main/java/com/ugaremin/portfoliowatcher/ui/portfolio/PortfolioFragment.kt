@@ -1,6 +1,7 @@
 package com.ugaremin.portfoliowatcher.ui.portfolio
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,12 +15,15 @@ import com.ugaremin.portfoliowatcher.Utilities.NetworkCheck.Companion.isInternet
 import com.ugaremin.portfoliowatcher.R
 import com.ugaremin.portfoliowatcher.Utilities.CustomItemDecoration
 import com.ugaremin.portfoliowatcher.adapter.PortfolioAdapter
+import com.ugaremin.portfoliowatcher.adapter.StockItemClickListener
 import com.ugaremin.portfoliowatcher.adapter.SwipeToDeleteCallback
+import com.ugaremin.portfoliowatcher.data.StockDetailData
 import com.ugaremin.portfoliowatcher.data.StocksData
 import com.ugaremin.portfoliowatcher.databinding.FragmentPortfolioBinding
+import com.ugaremin.portfoliowatcher.ui.dialogs.StockDetailDialogFragment
 
 
-class PortfolioFragment : Fragment(){
+class PortfolioFragment : Fragment(), StockItemClickListener {
 
     private lateinit var viewModel: PortfolioViewModel
     private lateinit var adapter: PortfolioAdapter
@@ -35,7 +39,7 @@ class PortfolioFragment : Fragment(){
         _binding = FragmentPortfolioBinding.inflate(inflater, container, false)
         val view = binding.root
         val mutableList = mutableListOf<StocksData>()
-        adapter = PortfolioAdapter(requireContext(), mutableList)
+        adapter = PortfolioAdapter(requireContext(), mutableList, this)
         binding.portfolioRecyclerView.adapter = adapter
         binding.portfolioRecyclerView.layoutManager = LinearLayoutManager(activity)
         val itemDecoration = CustomItemDecoration(resources.getDimensionPixelSize(R.dimen.item_offset))
@@ -69,6 +73,13 @@ class PortfolioFragment : Fragment(){
         super.onDestroyView()
         viewModel.stopDatabaseRequest()
         _binding = null
+    }
+
+    override fun onItemClick(item: StocksData) {
+        viewModel.uploadStockDetail(item.stockUrl, item.stockName){
+            val bottomSheetDialogFragment = StockDetailDialogFragment()
+            bottomSheetDialogFragment.show(childFragmentManager, bottomSheetDialogFragment.tag)
+        }
     }
 
 }
