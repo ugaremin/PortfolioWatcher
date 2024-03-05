@@ -47,10 +47,10 @@ class StocksViewModel : ViewModel() {
         }
     }
 
-    fun uploadStockDetail(stockUrl: String, completion: () -> Unit) {
+    fun uploadStockDetail(stockUrl: String, stockName: String, completion: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             val dataSource = StocksDataSource()
-            dataSource.getStocksDetail(stockUrl)
+            dataSource.getStocksDetail(stockUrl, stockName)
             completion()
         }
     }

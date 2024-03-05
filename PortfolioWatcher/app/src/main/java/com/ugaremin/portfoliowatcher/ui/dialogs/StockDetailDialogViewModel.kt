@@ -14,6 +14,7 @@ class StockDetailDialogViewModel : ViewModel() {
     init {
         // Bottom sheet için örnek verileri yükleme
         val items = listOf(
+            BottomSheetItem(StockDetailData.stockName),
             BottomSheetItem(StockDetailData.weeklyChange),
             BottomSheetItem(StockDetailData.monthlyChange),
             BottomSheetItem(StockDetailData.yearlyChange)

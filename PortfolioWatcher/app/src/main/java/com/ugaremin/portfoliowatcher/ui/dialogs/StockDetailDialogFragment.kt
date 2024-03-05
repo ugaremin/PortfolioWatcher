@@ -1,5 +1,6 @@
 package com.ugaremin.portfoliowatcher.ui.dialogs
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -21,15 +22,32 @@ class StockDetailDialogFragment : BottomSheetDialogFragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_stock_detail_dialog, container, false)
-        val textView1 = view?.findViewById<TextView>(R.id.textView1)
-        val textView2 = view?.findViewById<TextView>(R.id.textView2)
-        val textView3 = view?.findViewById<TextView>(R.id.textView3)
+        val stockNameTextView = view?.findViewById<TextView>(R.id.changesHeaderName)
+        val weeklyChangeTextView = view?.findViewById<TextView>(R.id.weeklyTextView)
+        val mounthlyChangeTextView = view?.findViewById<TextView>(R.id.mounthlyTextView)
+        val yearlyChangeTextView = view?.findViewById<TextView>(R.id.yearlyTextView)
         viewModel.bottomSheetItems.observe(viewLifecycleOwner) { items ->
-            textView1?.text = items[0].text
-            textView2?.text = items[1].text
-            textView3?.text = items[2].text
+            stockNameTextView?.text = items[0].text + " " + (getString(R.string.stock_change_detail_header))
+            weeklyChangeTextView?.text = items[1].text
+            setTextViewColorBySecondCharacter(weeklyChangeTextView)
+            mounthlyChangeTextView?.text = items[2].text
+            setTextViewColorBySecondCharacter(mounthlyChangeTextView)
+            yearlyChangeTextView?.text = items[3].text
+            setTextViewColorBySecondCharacter(yearlyChangeTextView)
         }
         return view
+    }
+
+    fun setTextViewColorBySecondCharacter(textView: TextView?) {
+        val text = textView?.text.toString()
+
+        if (text == "%0,00") {
+            textView?.setTextColor(Color.GRAY)
+        } else if (text.length >= 2 && text[1] == '-') {
+            textView?.setTextColor(Color.RED)
+        } else {
+            textView?.setTextColor(textView.context.getColor(R.color.green))
+        }
     }
 
 }

@@ -19,4 +19,8 @@
     <string name="network_error">İnternet Bağlantınızı kontrol edin</string>
     <string name="empt_list_warning_message">Henüz bir hisse senedi eklemediniz</string>
     <string name="add_stock_error_message">Bir hata oluştu</string>
+    <string name="stock_change_detail_header">Değişim Oranları</string>
+    <string name="stock_change_weekly_header">Haftalık</string>
+    <string name="stock_change_monthly_header">Aylık</string>
+    <string name="stock_change_yearly_header">Yıllık</string>
 </resources>

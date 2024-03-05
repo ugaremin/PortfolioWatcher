@@ -141,7 +141,7 @@ class StocksFragment : Fragment(), StockItemClickListener {
 
     override fun onItemClick(item: StocksData) {
         Log.d("EMN", "Item clicked: ${item.stockUrl}")
-        viewModel.uploadStockDetail(item.stockUrl){
+        viewModel.uploadStockDetail(item.stockUrl, item.stockName){
             val bottomSheetDialogFragment = StockDetailDialogFragment()
             bottomSheetDialogFragment.show(childFragmentManager, bottomSheetDialogFragment.tag)
             Log.d("EMN", "Stock Detail -> weekly: ${StockDetailData.weeklyChange} -- monthly: ${StockDetailData.monthlyChange} -- yearly: ${StockDetailData.yearlyChange}")
