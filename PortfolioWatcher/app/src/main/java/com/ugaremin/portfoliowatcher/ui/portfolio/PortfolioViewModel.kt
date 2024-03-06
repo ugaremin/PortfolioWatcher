@@ -2,12 +2,15 @@ package com.ugaremin.portfoliowatcher.ui.portfolio
 
 import android.content.Context
 import android.os.Handler
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ugaremin.portfoliowatcher.data.Room.AppDatabase
 import com.ugaremin.portfoliowatcher.data.StocksData
 import com.ugaremin.portfoliowatcher.data.StocksDataSource
+import com.ugaremin.portfoliowatcher.data.TotalPortfolioStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -68,6 +71,22 @@ class PortfolioViewModel : ViewModel() {
             } catch (e: Exception) {
                 completion(false)
             }
+        }
+    }
+
+    fun deleteStocks(context: Context, stockName: String, completion: () -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            AppDatabase.getInstance(context).stocksDao().deleteStockByStockName(stockName)
+            completion()
+        }
+
+    }
+
+    fun getSumStocks(context: Context) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val userDao = AppDatabase.getInstance(context).stocksDao()
+            TotalPortfolioStatus.sumStocks = userDao.getTotal()
+            Log.i("EMN", "Total Cost : ${TotalPortfolioStatus.sumStocks}" )
         }
     }
 }

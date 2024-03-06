@@ -40,12 +40,12 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
         _binding = FragmentPortfolioBinding.inflate(inflater, container, false)
         val view = binding.root
         val mutableList = mutableListOf<StocksData>()
-        adapter = PortfolioAdapter(requireContext(), mutableList, this)
+        viewModel = ViewModelProvider(this).get(PortfolioViewModel::class.java)
+        adapter = PortfolioAdapter(requireContext(), mutableList, viewModel,this)
         binding.portfolioRecyclerView.adapter = adapter
         binding.portfolioRecyclerView.layoutManager = LinearLayoutManager(activity)
         val itemDecoration = CustomItemDecoration(resources.getDimensionPixelSize(R.dimen.item_offset))
         binding.portfolioRecyclerView.addItemDecoration(itemDecoration)
-        viewModel = ViewModelProvider(this).get(PortfolioViewModel::class.java)
 
         viewModel.stocksLiveData.observe(viewLifecycleOwner, Observer { stocks ->
 
@@ -74,6 +74,11 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
         super.onDestroyView()
         viewModel.stopDatabaseRequest()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getSumStocks(requireContext())
     }
 
     override fun onItemClick(item: StocksData) {

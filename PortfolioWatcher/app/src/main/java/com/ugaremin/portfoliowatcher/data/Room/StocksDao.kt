@@ -29,4 +29,7 @@ interface StocksDao {
     @Query("SELECT * FROM stocks WHERE name = :searchName")
     fun getStockByName(searchName: String): Stocks?
 
+    @Query("SELECT SUM(total) FROM stocks")
+    fun getTotal(): Double
+
 }

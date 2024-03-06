@@ -1,6 +1,7 @@
 package com.ugaremin.portfoliowatcher.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +12,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ugaremin.portfoliowatcher.data.Room.AppDatabase
 import com.ugaremin.portfoliowatcher.R
 import com.ugaremin.portfoliowatcher.data.StocksData
+import com.ugaremin.portfoliowatcher.data.TotalPortfolioStatus
+import com.ugaremin.portfoliowatcher.ui.portfolio.PortfolioViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>, private val listener: StockItemClickListener) : RecyclerView.Adapter<PortfolioAdapter.PortfolioViewHolder>() {
+class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>, val viewModel: PortfolioViewModel, private val listener: StockItemClickListener) : RecyclerView.Adapter<PortfolioAdapter.PortfolioViewHolder>() {
 
     inner class PortfolioViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -116,10 +119,8 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
 
     fun deleteItem(position: Int) {
         val stockName = stocks[position].stockName.take(5)
-        GlobalScope.launch {
-            launch (Dispatchers.IO){
-                AppDatabase.getInstance(context).stocksDao().deleteStockByStockName(stockName)
-            }
+        viewModel.deleteStocks(context, stockName){
+            viewModel.getSumStocks(context)
         }
         stocks.removeAt(position)
         notifyItemRemoved(position)
