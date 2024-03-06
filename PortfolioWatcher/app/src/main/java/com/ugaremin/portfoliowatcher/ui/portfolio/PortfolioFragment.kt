@@ -19,6 +19,7 @@ import com.ugaremin.portfoliowatcher.adapter.StockItemClickListener
 import com.ugaremin.portfoliowatcher.adapter.SwipeToDeleteCallback
 import com.ugaremin.portfoliowatcher.data.StockDetailData
 import com.ugaremin.portfoliowatcher.data.StocksData
+import com.ugaremin.portfoliowatcher.data.TotalPortfolioStatus
 import com.ugaremin.portfoliowatcher.databinding.FragmentPortfolioBinding
 import com.ugaremin.portfoliowatcher.ui.dialogs.stockDetailDialog.StockDetailDialogFragment
 
@@ -53,8 +54,10 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
             adapter.setStocksSearch(stocks)
             if (stocks.size > 0)
                 binding.portfolioFragmentWarningText.visibility = View.GONE
-            else
+            else {
                 binding.portfolioFragmentWarningText.visibility = View.VISIBLE
+                TotalPortfolioStatus.sumLastValues = 0.0
+            }
         })
 
         viewModel.setContext(requireContext())

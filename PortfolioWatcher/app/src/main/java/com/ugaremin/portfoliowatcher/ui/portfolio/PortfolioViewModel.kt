@@ -86,7 +86,6 @@ class PortfolioViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val userDao = AppDatabase.getInstance(context).stocksDao()
             TotalPortfolioStatus.sumStocks = userDao.getTotal()
-            Log.i("EMN", "Total Cost : ${TotalPortfolioStatus.sumStocks}" )
         }
     }
 }

@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 
 class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>, val viewModel: PortfolioViewModel, private val listener: StockItemClickListener) : RecyclerView.Adapter<PortfolioAdapter.PortfolioViewHolder>() {
 
+    var sumResultLastValue: Double = 0.0
     inner class PortfolioViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val nameTextView: TextView = itemView.findViewById(R.id.stockNameTextViewPortfolio)
@@ -37,6 +38,7 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
         var stockCost : Double? = null
         var stockLastValue: Double? = null
         var resultLastValue: Double? = null
+
         var resultProfit: Double? = null
     }
 
@@ -53,15 +55,19 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
     @OptIn(DelicateCoroutinesApi::class)
     override fun onBindViewHolder(holder: PortfolioViewHolder, position: Int) {
 
-        val stocks = stocks[position]
-        holder.itemView.setOnClickListener {
-            listener.onItemClick(stocks)
+        if (position == 0){
+            sumResultLastValue = 0.0
         }
-        holder.nameTextView.text = stocks.stockName.take(5)
-        holder.detailTextView.text = stocks.stockName.drop(5).trim()
-        holder.lastValueTextView.text = stocks.lastValue.replace(".", "").replace(',', '.')
-        holder.stockLastValue = stocks.lastValue.replace(".", "").replace(',', '.').toDouble()
-        holder.changeTextView.text = stocks.percentChange
+
+        val myStocks = stocks[position]
+        holder.itemView.setOnClickListener {
+            listener.onItemClick(myStocks)
+        }
+        holder.nameTextView.text = myStocks.stockName.take(5)
+        holder.detailTextView.text = myStocks.stockName.drop(5).trim()
+        holder.lastValueTextView.text = myStocks.lastValue.replace(".", "").replace(',', '.')
+        holder.stockLastValue = myStocks.lastValue.replace(".", "").replace(',', '.').toDouble()
+        holder.changeTextView.text = myStocks.percentChange
 
 
 
@@ -92,6 +98,12 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
                     holder.stockCurrentValueTextView.text = String.format("%.2f", holder.resultLastValue)
                     holder.stockAmountTextView.text = holder.stockAmount.toString()
                     holder.stockCostTextView.text = String.format("%.2f", holder.stockCost)
+                    sumResultLastValue += (holder.resultLastValue!!)
+
+                    if (position == stocks.size - 1){
+                        TotalPortfolioStatus.sumLastValues = sumResultLastValue
+                        calculateTotalStatus(TotalPortfolioStatus.sumStocks, TotalPortfolioStatus.sumLastValues)
+                    }
 
                 }
                 
@@ -99,7 +111,7 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
         }
 
 
-        val percentChange = stocks.percentChange
+        val percentChange = myStocks.percentChange
         if (percentChange[1] == '-') {
             holder.changeTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.red))
             holder.arrowIcon.setBackgroundResource(R.drawable.arrow_down)
@@ -124,6 +136,16 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
         }
         stocks.removeAt(position)
         notifyItemRemoved(position)
+    }
+
+    fun calculateTotalStatus(sumValue: Double, sumLastValue: Double){
+        TotalPortfolioStatus.totalProfit = sumLastValue - sumValue
+        TotalPortfolioStatus.totalProfitPercent = (TotalPortfolioStatus.totalProfit / sumValue) * 100
+        Log.i("EMN", "Total Cost: ${TotalPortfolioStatus.sumStocks}")
+        Log.i("EMN", "Total Last Value: ${TotalPortfolioStatus.sumLastValues}")
+        Log.i("EMN", "Total Profit: ${TotalPortfolioStatus.totalProfit}")
+        Log.i("EMN", "Total Percent: %${TotalPortfolioStatus.totalProfitPercent}")
+
     }
 
 }
