@@ -19,7 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>, val viewModel: PortfolioViewModel, private val listener: StockItemClickListener) : RecyclerView.Adapter<PortfolioAdapter.PortfolioViewHolder>() {
+class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>, val viewModel: PortfolioViewModel, private val listener: StockItemClickListener, var onItemClick: () -> Unit) : RecyclerView.Adapter<PortfolioAdapter.PortfolioViewHolder>() {
 
     var sumResultLastValue: Double = 0.0
     inner class PortfolioViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -101,8 +101,7 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
                     sumResultLastValue += (holder.resultLastValue!!)
 
                     if (position == stocks.size - 1){
-                        TotalPortfolioStatus.sumLastValues = sumResultLastValue
-                        calculateTotalStatus(TotalPortfolioStatus.sumStocks, TotalPortfolioStatus.sumLastValues)
+                        calculateTotalStatus(sumResultLastValue)
                     }
 
                 }
@@ -136,15 +135,15 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
         }
         stocks.removeAt(position)
         notifyItemRemoved(position)
+        notifyDataSetChanged()
     }
 
-    fun calculateTotalStatus(sumValue: Double, sumLastValue: Double){
-        TotalPortfolioStatus.totalProfit = sumLastValue - sumValue
-        TotalPortfolioStatus.totalProfitPercent = (TotalPortfolioStatus.totalProfit / sumValue) * 100
+    fun calculateTotalStatus(sumLastValue: Double){
+        TotalPortfolioStatus.sumLastValues = sumLastValue;
+        TotalPortfolioStatus.totalProfit = TotalPortfolioStatus.sumLastValues - TotalPortfolioStatus.sumStocks
+        TotalPortfolioStatus.totalProfitPercent = (TotalPortfolioStatus.totalProfit / TotalPortfolioStatus.sumStocks) * 100
         Log.i("EMN", "Total Cost: ${TotalPortfolioStatus.sumStocks}")
-        Log.i("EMN", "Total Last Value: ${TotalPortfolioStatus.sumLastValues}")
-        Log.i("EMN", "Total Profit: ${TotalPortfolioStatus.totalProfit}")
-        Log.i("EMN", "Total Percent: %${TotalPortfolioStatus.totalProfitPercent}")
+        onItemClick()
 
     }
 

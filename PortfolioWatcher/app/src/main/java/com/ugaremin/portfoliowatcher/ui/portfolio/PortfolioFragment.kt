@@ -42,7 +42,9 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
         val view = binding.root
         val mutableList = mutableListOf<StocksData>()
         viewModel = ViewModelProvider(this).get(PortfolioViewModel::class.java)
-        adapter = PortfolioAdapter(requireContext(), mutableList, viewModel,this)
+        adapter = PortfolioAdapter(requireContext(), mutableList, viewModel,this){
+            onCalculateTotalStatus()
+        }
         binding.portfolioRecyclerView.adapter = adapter
         binding.portfolioRecyclerView.layoutManager = LinearLayoutManager(activity)
         val itemDecoration = CustomItemDecoration(resources.getDimensionPixelSize(R.dimen.item_offset))
@@ -95,6 +97,12 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
             }
 
         }
+    }
+
+    private fun onCalculateTotalStatus() {
+        Log.i("EMN", "Total Last Value: ${TotalPortfolioStatus.sumLastValues}")
+        Log.i("EMN", "Total Profit: ${TotalPortfolioStatus.totalProfit}")
+        Log.i("EMN", "Total Percent: %${TotalPortfolioStatus.totalProfitPercent}")
     }
 
 }
