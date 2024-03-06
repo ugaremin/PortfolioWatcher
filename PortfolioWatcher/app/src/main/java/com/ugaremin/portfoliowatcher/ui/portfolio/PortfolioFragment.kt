@@ -20,11 +20,12 @@ import com.ugaremin.portfoliowatcher.adapter.SwipeToDeleteCallback
 import com.ugaremin.portfoliowatcher.data.StockDetailData
 import com.ugaremin.portfoliowatcher.data.StocksData
 import com.ugaremin.portfoliowatcher.databinding.FragmentPortfolioBinding
-import com.ugaremin.portfoliowatcher.ui.dialogs.StockDetailDialogFragment
+import com.ugaremin.portfoliowatcher.ui.dialogs.stockDetailDialog.StockDetailDialogFragment
 
 
 class PortfolioFragment : Fragment(), StockItemClickListener {
 
+    private val TAG = PortfolioFragment::class.java.simpleName;
     private lateinit var viewModel: PortfolioViewModel
     private lateinit var adapter: PortfolioAdapter
 
@@ -76,9 +77,15 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
     }
 
     override fun onItemClick(item: StocksData) {
-        viewModel.uploadStockDetail(item.stockUrl, item.stockName){
-            val bottomSheetDialogFragment = StockDetailDialogFragment()
-            bottomSheetDialogFragment.show(childFragmentManager, bottomSheetDialogFragment.tag)
+        viewModel.uploadStockDetail(item.stockUrl, item.stockName, ){ success ->
+            if (success){
+                val bottomSheetDialogFragment = StockDetailDialogFragment()
+                bottomSheetDialogFragment.show(childFragmentManager, bottomSheetDialogFragment.tag)
+                Log.d(TAG, "Stock Details -> weekly: ${StockDetailData.weeklyChange} -- monthly: ${StockDetailData.monthlyChange} -- yearly: ${StockDetailData.yearlyChange}")
+            } else {
+                Log.e(TAG, "Stock details could not be fetched")
+            }
+
         }
     }
 

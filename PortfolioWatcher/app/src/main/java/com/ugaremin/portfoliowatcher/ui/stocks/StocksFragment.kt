@@ -16,7 +16,6 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ugaremin.portfoliowatcher.Utilities.NetworkCheck
@@ -27,11 +26,12 @@ import com.ugaremin.portfoliowatcher.adapter.StocksAdapter
 import com.ugaremin.portfoliowatcher.data.StockDetailData
 import com.ugaremin.portfoliowatcher.data.StocksData
 import com.ugaremin.portfoliowatcher.databinding.FragmentStocksBinding
-import com.ugaremin.portfoliowatcher.ui.dialogs.StockDetailDialogFragment
+import com.ugaremin.portfoliowatcher.ui.dialogs.stockDetailDialog.StockDetailDialogFragment
 
 
 class StocksFragment : Fragment(), StockItemClickListener {
 
+    private val TAG = StocksFragment::class.java.simpleName
     private lateinit var viewModel: StocksViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: StocksAdapter
@@ -140,11 +140,16 @@ class StocksFragment : Fragment(), StockItemClickListener {
     }
 
     override fun onItemClick(item: StocksData) {
-        Log.d("EMN", "Item clicked: ${item.stockUrl}")
-        viewModel.uploadStockDetail(item.stockUrl, item.stockName){
-            val bottomSheetDialogFragment = StockDetailDialogFragment()
-            bottomSheetDialogFragment.show(childFragmentManager, bottomSheetDialogFragment.tag)
-            Log.d("EMN", "Stock Detail -> weekly: ${StockDetailData.weeklyChange} -- monthly: ${StockDetailData.monthlyChange} -- yearly: ${StockDetailData.yearlyChange}")
+        Log.d(TAG, "Item clicked: ${item.stockUrl}")
+        viewModel.uploadStockDetail(item.stockUrl, item.stockName){ success ->
+            if (success) {
+                val bottomSheetDialogFragment = StockDetailDialogFragment()
+                bottomSheetDialogFragment.show(childFragmentManager, bottomSheetDialogFragment.tag)
+                Log.d(TAG, "Stock Details -> weekly: ${StockDetailData.weeklyChange} -- monthly: ${StockDetailData.monthlyChange} -- yearly: ${StockDetailData.yearlyChange}")
+            } else {
+                Log.e(TAG, "Stock details could not be fetched")
+            }
+
 
         }
     }

@@ -52,18 +52,22 @@ class PortfolioViewModel : ViewModel() {
     }
 
     fun getAllStocks(context: Context) {
-        GlobalScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             val dataSource = StocksDataSource()
             val stocks = dataSource.getPortfolioData(context)
             stocksLiveData.postValue(stocks.toMutableList())
         }
     }
 
-    fun uploadStockDetail(stockUrl: String, stockName: String, completion: () -> Unit) {
+    fun uploadStockDetail(stockUrl: String, stockName: String, completion: (Boolean) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
-            val dataSource = StocksDataSource()
-            dataSource.getStocksDetail(stockUrl, stockName)
-            completion()
+            try {
+                val dataSource = StocksDataSource()
+                dataSource.getStocksDetail(stockUrl, stockName)
+                completion(true)
+            } catch (e: Exception) {
+                completion(false)
+            }
         }
     }
 }

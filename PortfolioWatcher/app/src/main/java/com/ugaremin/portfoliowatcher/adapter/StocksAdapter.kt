@@ -2,7 +2,6 @@ package com.ugaremin.portfoliowatcher.adapter
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ugaremin.portfoliowatcher.R
 import com.ugaremin.portfoliowatcher.data.StocksData
-import com.ugaremin.portfoliowatcher.ui.dialogs.AddStockFragment
+import com.ugaremin.portfoliowatcher.ui.dialogs.addStockDialog.AddStockFragment
 
 class StocksAdapter(val context: Context, var stocks: List<StocksData>, private val listener: StockItemClickListener) : RecyclerView.Adapter<StocksAdapter.ViewHolder>()  {
 
@@ -44,7 +43,7 @@ class StocksAdapter(val context: Context, var stocks: List<StocksData>, private 
 
 
         val percentChange = stocks.percentChange
-        //Todo: Ekleme butonuna basıldığında alının aksiyon
+
         holder.addStock.setOnClickListener{
 
             val itemName = stocks.stockName.take(5)
