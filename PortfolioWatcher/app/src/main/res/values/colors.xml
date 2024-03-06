@@ -10,6 +10,7 @@
     <color name="main_color">#2E66A1</color>
     <color name="green">#008000</color>
     <color name="red">#FF3131</color>
+    <color name="soft_red">#db231d</color>
     <color name="neon_blue">#1F51FF</color>
     <color name="grey">#A2A2A2</color>
     <color name="light_grey">#D3D3D3</color>

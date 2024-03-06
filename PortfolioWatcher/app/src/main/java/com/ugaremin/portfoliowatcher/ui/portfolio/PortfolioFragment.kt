@@ -1,11 +1,13 @@
 package com.ugaremin.portfoliowatcher.ui.portfolio
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -100,9 +102,30 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
     }
 
     private fun onCalculateTotalStatus() {
+
+        binding.totalCostTextView.text = String.format("%.2f", TotalPortfolioStatus.sumStocks)
+        binding.totalValueTextView.text = String.format("%.2f", TotalPortfolioStatus.sumLastValues)
+        binding.totalProfitTextView.text = String.format("%.2f", TotalPortfolioStatus.totalProfit)
+        setTextViewColorBySecondCharacter(TotalPortfolioStatus.totalProfit, binding.totalProfitTextView)
+        binding.totalPercentTextView.text = ("%" + String.format("%.2f", TotalPortfolioStatus.totalProfitPercent))
+        setTextViewColorBySecondCharacter(TotalPortfolioStatus.totalProfitPercent, binding.totalPercentTextView)
+
+
         Log.i("EMN", "Total Last Value: ${TotalPortfolioStatus.sumLastValues}")
         Log.i("EMN", "Total Profit: ${TotalPortfolioStatus.totalProfit}")
         Log.i("EMN", "Total Percent: %${TotalPortfolioStatus.totalProfitPercent}")
+    }
+
+    fun setTextViewColorBySecondCharacter(value: Double, textView: TextView?) {
+        val text = String.format("%.2f", value)
+
+        if (text == "%0,00") {
+            textView?.setTextColor(Color.GRAY)
+        } else if (text.length >= 2 && text[0] == '-') {
+            textView?.setTextColor(textView.context.getColor(R.color.red))
+        } else {
+            textView?.setTextColor(textView.context.getColor(R.color.green))
+        }
     }
 
 }
