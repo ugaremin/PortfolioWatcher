@@ -32,4 +32,7 @@ interface StocksDao {
     @Query("SELECT SUM(total) FROM stocks")
     fun getTotal(): Double
 
+    @Query("SELECT amount FROM stocks WHERE name = :name")
+    fun getValueByName(name: String): Int
+
 }

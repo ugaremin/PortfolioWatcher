@@ -57,7 +57,7 @@ class PortfolioViewModel : ViewModel() {
     fun getAllStocks(context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
             val dataSource = StocksDataSource()
-            val stocks = dataSource.getPortfolioData(context)
+            val stocks = dataSource.getStocksData(context, true)
             stocksLiveData.postValue(stocks.toMutableList())
         }
     }
@@ -87,5 +87,19 @@ class PortfolioViewModel : ViewModel() {
             val userDao = AppDatabase.getInstance(context).stocksDao()
             TotalPortfolioStatus.sumStocks = userDao.getTotal()
         }
+    }
+
+    fun getSumLastValue(context: Context, completion: () -> Unit){
+        viewModelScope.launch(Dispatchers.IO) {
+            val userDao = AppDatabase.getInstance(context).stocksDao()
+            TotalPortfolioStatus.sumStocks = userDao.getTotal()
+            val dataSource = StocksDataSource()
+            TotalPortfolioStatus.sumLastValues = dataSource.getTotalValueForPortfolio(context)
+            TotalPortfolioStatus.totalProfit = TotalPortfolioStatus.sumLastValues - TotalPortfolioStatus.sumStocks
+            TotalPortfolioStatus.totalProfitPercent = (TotalPortfolioStatus.totalProfit / TotalPortfolioStatus.sumStocks) * 100
+
+        }
+        completion()
+
     }
 }

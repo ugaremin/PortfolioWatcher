@@ -1,5 +1,6 @@
 package com.ugaremin.portfoliowatcher.ui.stocks
 
+import android.content.Context
 import android.os.Handler
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -21,9 +22,19 @@ class StocksViewModel : ViewModel() {
 
     private val databaseRequestRunnable = object : Runnable {
         override fun run() {
-            uploadStocksData()
-            handler.postDelayed(this, interval)
+            _contextLiveData.value?.let { context ->
+
+                uploadStocksData(context)
+                handler.postDelayed(this, interval)
+            }
+
         }
+    }
+
+    private val _contextLiveData = MutableLiveData<Context>()
+
+    fun setContext(context: Context) {
+        _contextLiveData.value = context
     }
 
     fun startDatabaseRequest() {
@@ -39,10 +50,10 @@ class StocksViewModel : ViewModel() {
         handler.removeCallbacksAndMessages(null)
     }
 
-    fun uploadStocksData() {
+    fun uploadStocksData(context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
             val dataSource = StocksDataSource()
-            val stocks = dataSource.getStocksData()
+            val stocks = dataSource.getStocksData(context, false)
             stocksLiveData.postValue(stocks)
         }
     }

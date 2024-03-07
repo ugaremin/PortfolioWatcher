@@ -19,9 +19,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>, val viewModel: PortfolioViewModel, private val listener: StockItemClickListener, var onItemClick: () -> Unit) : RecyclerView.Adapter<PortfolioAdapter.PortfolioViewHolder>() {
+class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>, val viewModel: PortfolioViewModel, private val listener: StockItemClickListener) : RecyclerView.Adapter<PortfolioAdapter.PortfolioViewHolder>() {
 
-    var sumResultLastValue: Double = 0.0
     inner class PortfolioViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val nameTextView: TextView = itemView.findViewById(R.id.stockNameTextViewPortfolio)
@@ -54,10 +53,6 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
 
     @OptIn(DelicateCoroutinesApi::class)
     override fun onBindViewHolder(holder: PortfolioViewHolder, position: Int) {
-
-        if (position == 0){
-            sumResultLastValue = 0.0
-        }
 
         val myStocks = stocks[position]
         holder.itemView.setOnClickListener {
@@ -98,12 +93,6 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
                     holder.stockCurrentValueTextView.text = String.format("%.2f", holder.resultLastValue)
                     holder.stockAmountTextView.text = holder.stockAmount.toString()
                     holder.stockCostTextView.text = String.format("%.2f", holder.stockCost)
-                    sumResultLastValue += (holder.resultLastValue!!)
-
-                    if (position == stocks.size - 1){
-                        calculateTotalStatus(sumResultLastValue)
-                    }
-
                 }
                 
             }
@@ -136,15 +125,6 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
         stocks.removeAt(position)
         notifyItemRemoved(position)
         notifyDataSetChanged()
-    }
-
-    fun calculateTotalStatus(sumLastValue: Double){
-        TotalPortfolioStatus.sumLastValues = sumLastValue;
-        TotalPortfolioStatus.totalProfit = TotalPortfolioStatus.sumLastValues - TotalPortfolioStatus.sumStocks
-        TotalPortfolioStatus.totalProfitPercent = (TotalPortfolioStatus.totalProfit / TotalPortfolioStatus.sumStocks) * 100
-        Log.i("EMN", "Total Cost: ${TotalPortfolioStatus.sumStocks}")
-        onItemClick()
-
     }
 
 }

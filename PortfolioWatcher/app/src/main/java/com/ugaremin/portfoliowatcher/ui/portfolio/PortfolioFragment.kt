@@ -44,9 +44,7 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
         val view = binding.root
         val mutableList = mutableListOf<StocksData>()
         viewModel = ViewModelProvider(this).get(PortfolioViewModel::class.java)
-        adapter = PortfolioAdapter(requireContext(), mutableList, viewModel,this){
-            onCalculateTotalStatus()
-        }
+        adapter = PortfolioAdapter(requireContext(), mutableList, viewModel,this)
         binding.portfolioRecyclerView.adapter = adapter
         binding.portfolioRecyclerView.layoutManager = LinearLayoutManager(activity)
         val itemDecoration = CustomItemDecoration(resources.getDimensionPixelSize(R.dimen.item_offset))
@@ -85,7 +83,9 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getSumStocks(requireContext())
+        viewModel.getSumLastValue(requireContext()){
+            onCalculateTotalStatus()
+        }
     }
 
     override fun onItemClick(item: StocksData) {
@@ -110,10 +110,6 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
         binding.totalPercentTextView.text = ("%" + String.format("%.2f", TotalPortfolioStatus.totalProfitPercent))
         setTextViewColorBySecondCharacter(TotalPortfolioStatus.totalProfitPercent, binding.totalPercentTextView)
 
-
-        Log.i("EMN", "Total Last Value: ${TotalPortfolioStatus.sumLastValues}")
-        Log.i("EMN", "Total Profit: ${TotalPortfolioStatus.totalProfit}")
-        Log.i("EMN", "Total Percent: %${TotalPortfolioStatus.totalProfitPercent}")
     }
 
     fun setTextViewColorBySecondCharacter(value: Double, textView: TextView?) {

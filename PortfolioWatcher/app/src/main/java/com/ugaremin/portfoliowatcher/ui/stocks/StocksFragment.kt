@@ -90,6 +90,7 @@ class StocksFragment : Fragment(), StockItemClickListener {
             adapter.stocks = stocks
             adapter.setStocksSearch(stocks)
         })
+        viewModel.setContext(requireContext())
 
         if(NetworkCheck.isInternetAvailable(requireContext())){
             viewModel.startDatabaseRequest()
