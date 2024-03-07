@@ -66,7 +66,7 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
         })
         viewModel.getSumLastValue(requireContext()){
             GlobalScope.launch(Dispatchers.Main) {
-                onCalculateTotalStatus()
+                setGeneralSituationValeu()
             }
 
         }
@@ -95,6 +95,13 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
         super.onResume()
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.updateGeneralValuesLiveData.observe(viewLifecycleOwner, Observer {
+            setGeneralSituationValeu()
+        })
+    }
+
     override fun onItemClick(item: StocksData) {
         viewModel.uploadStockDetail(item.stockUrl, item.stockName, ){ success ->
             if (success){
@@ -108,7 +115,7 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
         }
     }
 
-    private fun onCalculateTotalStatus() {
+    private fun setGeneralSituationValeu() {
 
         binding.totalCostTextView.text = String.format("%.2f", TotalPortfolioStatus.sumStocks)
         binding.totalValueTextView.text = String.format("%.2f", TotalPortfolioStatus.sumLastValues)

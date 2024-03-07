@@ -12,12 +12,16 @@ import com.ugaremin.portfoliowatcher.data.StocksData
 import com.ugaremin.portfoliowatcher.data.StocksDataSource
 import com.ugaremin.portfoliowatcher.data.TotalPortfolioStatus
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class PortfolioViewModel : ViewModel() {
 
+    val TAG = PortfolioViewModel::class.simpleName
     val stocksLiveData = MutableLiveData<MutableList<StocksData>>()
+    private val _updateLiveData = MutableLiveData<Unit>()
+
+    val updateGeneralValuesLiveData: LiveData<Unit>
+        get() = _updateLiveData
 
     private val handler = Handler()
     private val interval = 15000L
@@ -27,6 +31,9 @@ class PortfolioViewModel : ViewModel() {
             _contextLiveData.value?.let { context ->
 
                 getAllStocks(context)
+                getSumLastValue(context){
+                    Log.i(TAG, "stocks data updated")
+                }
             }
 
             handler.postDelayed(this, interval)
@@ -77,6 +84,9 @@ class PortfolioViewModel : ViewModel() {
     fun deleteStocks(context: Context, stockName: String, completion: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             AppDatabase.getInstance(context).stocksDao().deleteStockByStockName(stockName)
+            getSumLastValue(context){
+                Log.i(TAG, "stocks removed")
+            }
             completion()
         }
 
@@ -98,6 +108,9 @@ class PortfolioViewModel : ViewModel() {
             TotalPortfolioStatus.sumLastValues = dataSource.getTotalValueForPortfolio(context)
             TotalPortfolioStatus.totalProfit = TotalPortfolioStatus.sumLastValues - TotalPortfolioStatus.sumStocks
             TotalPortfolioStatus.totalProfitPercent = (TotalPortfolioStatus.totalProfit / TotalPortfolioStatus.sumStocks) * 100
+            launch(Dispatchers.Main) {
+                _updateLiveData.value = Unit
+            }
             completion()
 
         }
