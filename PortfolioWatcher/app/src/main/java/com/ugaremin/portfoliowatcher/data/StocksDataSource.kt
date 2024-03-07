@@ -36,7 +36,7 @@ class StocksDataSource {
         return data
     }
 
-    suspend fun getPortfolioData(context: Context): List<StocksData> {
+    suspend fun getPortfolioData(context: Context): MutableList<StocksData> {
         val url = "https://borsa.doviz.com/hisseler"
         val doc = withContext(Dispatchers.IO) {
             Jsoup.connect(url).get()
