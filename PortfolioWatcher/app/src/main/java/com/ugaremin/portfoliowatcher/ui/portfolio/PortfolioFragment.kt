@@ -57,11 +57,13 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
 
             adapter.stocks = stocks
             adapter.setStocksSearch(stocks)
-            if (stocks.size > 0)
+            if (stocks.size > 0){
                 binding.portfolioFragmentWarningText.visibility = View.GONE
+                binding.totalStatusLayout.visibility = View.VISIBLE
+            }
             else {
                 binding.portfolioFragmentWarningText.visibility = View.VISIBLE
-                TotalPortfolioStatus.sumLastValues = 0.0
+                binding.totalStatusLayout.visibility = View.GONE
             }
         })
         viewModel.getSumLastValue(requireContext()){
@@ -129,7 +131,7 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
     fun setTextViewColorBySecondCharacter(value: Double, textView: TextView?) {
         val text = String.format("%.2f", value)
 
-        if (text == "%0,00") {
+        if (text == "0,00") {
             textView?.setTextColor(Color.GRAY)
         } else if (text.length >= 2 && text[0] == '-') {
             textView?.setTextColor(textView.context.getColor(R.color.red))
