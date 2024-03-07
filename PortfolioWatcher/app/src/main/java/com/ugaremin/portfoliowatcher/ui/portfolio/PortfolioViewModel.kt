@@ -86,6 +86,7 @@ class PortfolioViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val userDao = AppDatabase.getInstance(context).stocksDao()
             TotalPortfolioStatus.sumStocks = userDao.getTotal()
+            TotalPortfolioStatus.sumStocks = userDao.getTotal()
         }
     }
 
@@ -97,9 +98,9 @@ class PortfolioViewModel : ViewModel() {
             TotalPortfolioStatus.sumLastValues = dataSource.getTotalValueForPortfolio(context)
             TotalPortfolioStatus.totalProfit = TotalPortfolioStatus.sumLastValues - TotalPortfolioStatus.sumStocks
             TotalPortfolioStatus.totalProfitPercent = (TotalPortfolioStatus.totalProfit / TotalPortfolioStatus.sumStocks) * 100
+            completion()
 
         }
-        completion()
 
     }
 }

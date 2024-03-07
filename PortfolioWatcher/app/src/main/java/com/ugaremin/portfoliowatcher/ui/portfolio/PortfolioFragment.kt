@@ -24,6 +24,9 @@ import com.ugaremin.portfoliowatcher.data.StocksData
 import com.ugaremin.portfoliowatcher.data.TotalPortfolioStatus
 import com.ugaremin.portfoliowatcher.databinding.FragmentPortfolioBinding
 import com.ugaremin.portfoliowatcher.ui.dialogs.stockDetailDialog.StockDetailDialogFragment
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class PortfolioFragment : Fragment(), StockItemClickListener {
@@ -61,6 +64,13 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
                 TotalPortfolioStatus.sumLastValues = 0.0
             }
         })
+        viewModel.getSumLastValue(requireContext()){
+            GlobalScope.launch(Dispatchers.Main) {
+                onCalculateTotalStatus()
+            }
+
+        }
+
 
         viewModel.setContext(requireContext())
         if(isInternetAvailable(requireContext())){
@@ -83,9 +93,6 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getSumLastValue(requireContext()){
-            onCalculateTotalStatus()
-        }
     }
 
     override fun onItemClick(item: StocksData) {
