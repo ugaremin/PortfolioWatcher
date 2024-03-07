@@ -48,6 +48,7 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
         val mutableList = mutableListOf<StocksData>()
         viewModel = ViewModelProvider(this).get(PortfolioViewModel::class.java)
         adapter = PortfolioAdapter(requireContext(), mutableList, viewModel,this)
+        binding.portfolioProgressBar.visibility = View.VISIBLE
         binding.portfolioRecyclerView.adapter = adapter
         binding.portfolioRecyclerView.layoutManager = LinearLayoutManager(activity)
         val itemDecoration = CustomItemDecoration(resources.getDimensionPixelSize(R.dimen.item_offset))
@@ -69,6 +70,7 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
         viewModel.getSumLastValue(requireContext()){
             GlobalScope.launch(Dispatchers.Main) {
                 setGeneralSituationValeu()
+                binding.portfolioProgressBar.visibility = View.GONE
             }
 
         }

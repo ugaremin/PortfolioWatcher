@@ -49,6 +49,7 @@ class StocksFragment : Fragment(), StockItemClickListener {
         val view = binding.root
 
         adapter = StocksAdapter(requireContext(), emptyList(), this)
+        binding.stocksProgressBar.visibility = View.VISIBLE
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(activity)
         val itemDecoration = CustomItemDecoration(resources.getDimensionPixelSize(R.dimen.item_offset))
@@ -89,6 +90,7 @@ class StocksFragment : Fragment(), StockItemClickListener {
 
             adapter.stocks = stocks
             adapter.setStocksSearch(stocks)
+            binding.stocksProgressBar.visibility = View.GONE
         })
         viewModel.setContext(requireContext())
 
