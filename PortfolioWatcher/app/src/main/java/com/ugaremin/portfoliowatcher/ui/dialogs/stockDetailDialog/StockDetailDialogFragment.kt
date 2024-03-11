@@ -1,8 +1,7 @@
-package com.ugaremin.portfoliowatcher.ui.dialogs
+package com.ugaremin.portfoliowatcher.ui.dialogs.stockDetailDialog
 
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

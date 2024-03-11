@@ -23,5 +23,7 @@
     <string name="stock_change_weekly_header">Weekly</string>
     <string name="stock_change_monthly_header">Monthly</string>
     <string name="stock_change_yearly_header">Yearly</string>
+    <string name="total_percent_header">Percent:</string>
+    <string name="total_status_header">general situation</string>
 
 </resources>

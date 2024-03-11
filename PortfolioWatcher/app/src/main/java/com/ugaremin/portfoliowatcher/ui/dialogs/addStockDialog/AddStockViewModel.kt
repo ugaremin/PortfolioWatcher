@@ -1,4 +1,4 @@
-package com.ugaremin.portfoliowatcher.ui.dialogs
+package com.ugaremin.portfoliowatcher.ui.dialogs.addStockDialog
 
 import android.content.Context
 import android.widget.Toast

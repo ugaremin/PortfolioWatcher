@@ -23,4 +23,6 @@
     <string name="stock_change_weekly_header">Haftalık</string>
     <string name="stock_change_monthly_header">Aylık</string>
     <string name="stock_change_yearly_header">Yıllık</string>
+    <string name="total_percent_header">Yüzde:</string>
+    <string name="total_status_header">genel durum</string>
 </resources>

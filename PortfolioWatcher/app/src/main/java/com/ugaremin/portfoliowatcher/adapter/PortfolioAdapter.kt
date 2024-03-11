@@ -1,6 +1,7 @@
 package com.ugaremin.portfoliowatcher.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +12,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ugaremin.portfoliowatcher.data.Room.AppDatabase
 import com.ugaremin.portfoliowatcher.R
 import com.ugaremin.portfoliowatcher.data.StocksData
+import com.ugaremin.portfoliowatcher.data.TotalPortfolioStatus
+import com.ugaremin.portfoliowatcher.ui.portfolio.PortfolioViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>) : RecyclerView.Adapter<PortfolioAdapter.PortfolioViewHolder>() {
+class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>, val viewModel: PortfolioViewModel, private val listener: StockItemClickListener) : RecyclerView.Adapter<PortfolioAdapter.PortfolioViewHolder>() {
 
     inner class PortfolioViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -34,6 +37,7 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
         var stockCost : Double? = null
         var stockLastValue: Double? = null
         var resultLastValue: Double? = null
+
         var resultProfit: Double? = null
     }
 
@@ -50,12 +54,15 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
     @OptIn(DelicateCoroutinesApi::class)
     override fun onBindViewHolder(holder: PortfolioViewHolder, position: Int) {
 
-        val stocks = stocks[position]
-        holder.nameTextView.text = stocks.stockName.take(5)
-        holder.detailTextView.text = stocks.stockName.drop(5).trim()
-        holder.lastValueTextView.text = stocks.lastValue.replace(".", "").replace(',', '.')
-        holder.stockLastValue = stocks.lastValue.replace(".", "").replace(',', '.').toDouble()
-        holder.changeTextView.text = stocks.percentChange
+        val myStocks = stocks[position]
+        holder.itemView.setOnClickListener {
+            listener.onItemClick(myStocks)
+        }
+        holder.nameTextView.text = myStocks.stockName.take(5)
+        holder.detailTextView.text = myStocks.stockName.drop(5).trim()
+        holder.lastValueTextView.text = myStocks.lastValue.replace(".", "").replace(',', '.')
+        holder.stockLastValue = myStocks.lastValue.replace(".", "").replace(',', '.').toDouble()
+        holder.changeTextView.text = myStocks.percentChange
 
 
 
@@ -86,14 +93,13 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
                     holder.stockCurrentValueTextView.text = String.format("%.2f", holder.resultLastValue)
                     holder.stockAmountTextView.text = holder.stockAmount.toString()
                     holder.stockCostTextView.text = String.format("%.2f", holder.stockCost)
-
                 }
                 
             }
         }
 
 
-        val percentChange = stocks.percentChange
+        val percentChange = myStocks.percentChange
         if (percentChange[1] == '-') {
             holder.changeTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.red))
             holder.arrowIcon.setBackgroundResource(R.drawable.arrow_down)
@@ -113,13 +119,12 @@ class PortfolioAdapter(val context: Context, var stocks: MutableList<StocksData>
 
     fun deleteItem(position: Int) {
         val stockName = stocks[position].stockName.take(5)
-        GlobalScope.launch {
-            launch (Dispatchers.IO){
-                AppDatabase.getInstance(context).stocksDao().deleteStockByStockName(stockName)
-            }
+        viewModel.deleteStocks(context, stockName){
+            viewModel.getSumStocks(context)
         }
         stocks.removeAt(position)
         notifyItemRemoved(position)
+        notifyDataSetChanged()
     }
 
 }

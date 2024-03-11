@@ -9,16 +9,143 @@
     android:orientation="vertical"
     tools:context="com.ugaremin.portfoliowatcher.ui.portfolio.PortfolioFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/total_status_layout"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/recycler_item_shape" >
+
+        <TextView
+            android:id="@+id/total_status_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/total_status_header"
+            android:textAllCaps="true"
+            android:textSize="20sp"
+            android:alpha="0.6"
+            android:fontFamily="@font/lato_bold"/>
+
+        <TextView
+            android:id="@+id/total_cost_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/total_value_header"
+            app:layout_constraintTop_toBottomOf="@+id/total_status_header"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/stock_cost"
+            android:textSize="16sp"
+            android:fontFamily="@font/lato_regular"
+            android:textColor="@color/grey"
+            android:alpha="0.6"/>
+
+        <TextView
+            android:id="@+id/total_value_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/total_value"
+            android:textSize="16sp"
+            android:fontFamily="@font/lato_regular"
+            android:textColor="@color/grey"
+            android:alpha="0.6"/>
+
+        <TextView
+            android:id="@+id/total_profit_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/total_percent_header"
+            app:layout_constraintBottom_toBottomOf="@+id/total_cost_header"
+            android:text="@string/profit"
+            android:textSize="16sp"
+            android:fontFamily="@font/lato_regular"
+            android:textColor="@color/grey"
+            android:alpha="0.6"/>
+
+        <TextView
+            android:id="@+id/total_percent_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/total_value_header"
+            android:layout_marginEnd="110dp"
+            android:text="@string/total_percent_header"
+            android:textSize="16sp"
+            android:fontFamily="@font/lato_regular"
+            android:textColor="@color/grey"
+            android:alpha="0.6"/>
+
+        <TextView
+            android:id="@+id/total_cost_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/total_cost_header"
+            app:layout_constraintTop_toTopOf="@+id/total_cost_header"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/lato_bold"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/total_value_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/total_cost_text_view"
+            app:layout_constraintTop_toTopOf="@+id/total_value_header"
+            android:fontFamily="@font/lato_bold"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/total_profit_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/total_profit_header"
+            app:layout_constraintTop_toTopOf="@+id/total_profit_header"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/lato_bold"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/total_percent_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/total_profit_text_view"
+            app:layout_constraintTop_toTopOf="@+id/total_percent_header"
+            android:fontFamily="@font/lato_bold"
+            android:textSize="16sp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/portfolioRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="700dp"
+        android:layout_height="585dp"
         android:layout_marginTop="5dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/total_status_layout"
         app:layout_constraintStart_toStartOf="parent"
         />
+
+    <ProgressBar
+        android:id="@+id/portfolio_progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/portfolioFragmentWarningText"
