@@ -1,6 +1,7 @@
 package com.ugaremin.portfoliowatcher.data
 
 import android.content.Context
+import android.util.Log
 import com.ugaremin.portfoliowatcher.data.Room.AppDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -87,14 +88,32 @@ class StocksDataSource {
 
         for (row in tableRows) {
             val columns = row.select("td")
-            if (columns.size >= 4) {
-                val weeklyChange = columns[1].text().trim()
-                val monthlyChange = columns[2].text().trim()
-                val yearlyChange = columns[3].text().trim()
-                StockDetailData.stockName = stockName.trim().take(5)
-                StockDetailData.weeklyChange = weeklyChange
-                StockDetailData.monthlyChange = monthlyChange
-                StockDetailData.yearlyChange = yearlyChange
+            StockDetailData.stockName = stockName.trim().take(5)
+            var weeklyChange: String? = null
+            var monthlyChange: String? = null
+            var yearlyChange: String? = null
+            if (columns.size == 2) {
+                if(columns.text().toString().contains("Haftalık")){
+                    weeklyChange = columns[1].text().trim()
+                }
+
+                if(columns.text().toString().contains("Aylık")){
+                    monthlyChange = columns[1].text().trim()
+                }
+
+                if(columns.text().toString().contains("Yıllık")){
+                    yearlyChange = columns[1].text().trim()
+                }
+
+                if (weeklyChange != null) {
+                    StockDetailData.weeklyChange = weeklyChange
+                }
+                if (monthlyChange != null) {
+                    StockDetailData.monthlyChange = monthlyChange
+                }
+                if (yearlyChange != null) {
+                    StockDetailData.yearlyChange = yearlyChange
+                }
 
             }
         }
