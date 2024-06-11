@@ -46,7 +46,7 @@ class StocksFragment : Fragment(), StockItemClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentStocksBinding.inflate(inflater, container, false)
         val view = binding.root

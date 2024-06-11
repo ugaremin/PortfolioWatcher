@@ -44,7 +44,7 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentPortfolioBinding.inflate(inflater, container, false)
         val view = binding.root
