@@ -107,9 +107,17 @@ class StocksFragment : Fragment(), StockItemClickListener {
             networkMonitorService = NetworkMonitorService(context) { isConnected ->
                 if (isConnected) {
                     viewModel.startDatabaseRequest()
+                    requireActivity().runOnUiThread {
+                        binding.stocksFragmentDisconnectedView.visibility = View.GONE
+                        binding.stocksFragmentConnectedView.visibility = View.VISIBLE
+                    }
+
                 } else {
-                    Toast.makeText(requireContext(), getString(R.string.network_error), Toast.LENGTH_LONG).show()
                     viewModel.stopDatabaseRequest()
+                    requireActivity().runOnUiThread {
+                        binding.stocksFragmentDisconnectedView.visibility = View.VISIBLE
+                        binding.stocksFragmentConnectedView.visibility = View.GONE
+                    }
                 }
             }
         }
