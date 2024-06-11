@@ -17,6 +17,7 @@ import com.ugaremin.portfoliowatcher.Utilities.NetworkCheck.Companion.isInternet
 import com.ugaremin.portfoliowatcher.R
 import com.ugaremin.portfoliowatcher.Utilities.CheckBottomSheetDialog
 import com.ugaremin.portfoliowatcher.Utilities.CustomItemDecoration
+import com.ugaremin.portfoliowatcher.Utilities.NetworkMonitorService
 import com.ugaremin.portfoliowatcher.adapter.PortfolioAdapter
 import com.ugaremin.portfoliowatcher.adapter.StockItemClickListener
 import com.ugaremin.portfoliowatcher.adapter.SwipeToDeleteCallback
@@ -35,6 +36,7 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
     private val TAG = PortfolioFragment::class.java.simpleName;
     private lateinit var viewModel: PortfolioViewModel
     private lateinit var adapter: PortfolioAdapter
+    private lateinit var networkMonitorService: NetworkMonitorService
 
     private var _binding: FragmentPortfolioBinding? = null
     private val binding get() = _binding!!
@@ -78,11 +80,6 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
 
 
         viewModel.setContext(requireContext())
-        if(isInternetAvailable(requireContext())){
-            viewModel.startDatabaseRequest()
-        }else{
-            Toast.makeText(requireContext(), getString(R.string.network_error), Toast.LENGTH_LONG).show()
-        }
 
         val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(adapter))
         itemTouchHelper.attachToRecyclerView(binding.portfolioRecyclerView)
@@ -105,6 +102,17 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
         viewModel.updateGeneralValuesLiveData.observe(viewLifecycleOwner, Observer {
             setGeneralSituationValeu()
         })
+
+        context?.let { context ->
+            networkMonitorService = NetworkMonitorService(context) { isConnected ->
+                if (isConnected) {
+                    viewModel.startDatabaseRequest()
+                } else {
+                    Toast.makeText(requireContext(), getString(R.string.network_error), Toast.LENGTH_LONG).show()
+                    viewModel.stopDatabaseRequest()
+                }
+            }
+        }
     }
 
     override fun onItemClick(item: StocksData) {

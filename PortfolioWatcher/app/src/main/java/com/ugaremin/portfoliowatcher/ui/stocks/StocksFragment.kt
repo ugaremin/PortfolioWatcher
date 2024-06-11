@@ -22,6 +22,7 @@ import com.ugaremin.portfoliowatcher.Utilities.NetworkCheck
 import com.ugaremin.portfoliowatcher.R
 import com.ugaremin.portfoliowatcher.Utilities.CheckBottomSheetDialog
 import com.ugaremin.portfoliowatcher.Utilities.CustomItemDecoration
+import com.ugaremin.portfoliowatcher.Utilities.NetworkMonitorService
 import com.ugaremin.portfoliowatcher.adapter.StockItemClickListener
 import com.ugaremin.portfoliowatcher.adapter.StocksAdapter
 import com.ugaremin.portfoliowatcher.data.StockDetailData
@@ -36,6 +37,7 @@ class StocksFragment : Fragment(), StockItemClickListener {
     private lateinit var viewModel: StocksViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: StocksAdapter
+    private lateinit var networkMonitorService: NetworkMonitorService
 
     private var _binding: FragmentStocksBinding? = null
     private val binding get() = _binding!!
@@ -95,17 +97,27 @@ class StocksFragment : Fragment(), StockItemClickListener {
         })
         viewModel.setContext(requireContext())
 
-        if(NetworkCheck.isInternetAvailable(requireContext())){
-            viewModel.startDatabaseRequest()
-        }else{
-            Toast.makeText(requireContext(), getString(R.string.network_error), Toast.LENGTH_LONG).show()
-        }
-
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        context?.let { context ->
+            networkMonitorService = NetworkMonitorService(context) { isConnected ->
+                if (isConnected) {
+                    viewModel.startDatabaseRequest()
+                } else {
+                    Toast.makeText(requireContext(), getString(R.string.network_error), Toast.LENGTH_LONG).show()
+                    viewModel.stopDatabaseRequest()
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        networkMonitorService.stopNetworkCallback()
         viewModel.stopDatabaseRequest()
         _binding = null
     }
