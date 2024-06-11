@@ -2,6 +2,7 @@ package com.ugaremin.portfoliowatcher.ui.dialogs.stockDetailDialog
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.TextView
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ugaremin.portfoliowatcher.R
+import com.ugaremin.portfoliowatcher.Utilities.CheckBottomSheetDialog
 
 
 class StockDetailDialogFragment : BottomSheetDialogFragment() {
@@ -47,6 +49,10 @@ class StockDetailDialogFragment : BottomSheetDialogFragment() {
         } else {
             textView?.setTextColor(textView.context.getColor(R.color.green))
         }
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        CheckBottomSheetDialog.dialogIsShowing = false
     }
 
 }

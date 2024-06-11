@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ugaremin.portfoliowatcher.Utilities.NetworkCheck.Companion.isInternetAvailable
 import com.ugaremin.portfoliowatcher.R
+import com.ugaremin.portfoliowatcher.Utilities.CheckBottomSheetDialog
 import com.ugaremin.portfoliowatcher.Utilities.CustomItemDecoration
 import com.ugaremin.portfoliowatcher.adapter.PortfolioAdapter
 import com.ugaremin.portfoliowatcher.adapter.StockItemClickListener
@@ -108,9 +109,10 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
 
     override fun onItemClick(item: StocksData) {
         viewModel.uploadStockDetail(item.stockUrl, item.stockName, ){ success ->
-            if (success){
+            if (success && CheckBottomSheetDialog.dialogIsShowing != true){
                 val bottomSheetDialogFragment = StockDetailDialogFragment()
                 bottomSheetDialogFragment.show(childFragmentManager, bottomSheetDialogFragment.tag)
+                CheckBottomSheetDialog.dialogIsShowing = true
                 Log.d(TAG, "Stock Details -> weekly: ${StockDetailData.weeklyChange} -- monthly: ${StockDetailData.monthlyChange} -- yearly: ${StockDetailData.yearlyChange}")
             } else {
                 Log.e(TAG, "Stock details could not be fetched")
