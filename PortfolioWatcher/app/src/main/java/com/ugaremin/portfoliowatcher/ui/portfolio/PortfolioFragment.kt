@@ -90,6 +90,7 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
     override fun onDestroyView() {
         super.onDestroyView()
         viewModel.stopDatabaseRequest()
+        networkMonitorService.stopNetworkCallback()
         _binding = null
     }
 
@@ -107,9 +108,16 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
             networkMonitorService = NetworkMonitorService(context) { isConnected ->
                 if (isConnected) {
                     viewModel.startDatabaseRequest()
+                    requireActivity().runOnUiThread {
+                        binding.portfolioFragmentDisconnectedView.visibility = View.GONE
+                        binding.portfolioFragmentConnectedView.visibility = View.VISIBLE
+                    }
                 } else {
-                    Toast.makeText(requireContext(), getString(R.string.network_error), Toast.LENGTH_LONG).show()
                     viewModel.stopDatabaseRequest()
+                    requireActivity().runOnUiThread {
+                        binding.portfolioFragmentDisconnectedView.visibility = View.VISIBLE
+                        binding.portfolioFragmentConnectedView.visibility = View.GONE
+                    }
                 }
             }
         }
