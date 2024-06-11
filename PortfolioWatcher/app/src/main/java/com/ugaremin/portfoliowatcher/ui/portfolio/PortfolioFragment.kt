@@ -108,16 +108,10 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
             networkMonitorService = NetworkMonitorService(context) { isConnected ->
                 if (isConnected) {
                     viewModel.startDatabaseRequest()
-                    requireActivity().runOnUiThread {
-                        binding.portfolioFragmentDisconnectedView.visibility = View.GONE
-                        binding.portfolioFragmentConnectedView.visibility = View.VISIBLE
-                    }
+                    setViewAccordingToNetworkStatus(true)
                 } else {
                     viewModel.stopDatabaseRequest()
-                    requireActivity().runOnUiThread {
-                        binding.portfolioFragmentDisconnectedView.visibility = View.VISIBLE
-                        binding.portfolioFragmentConnectedView.visibility = View.GONE
-                    }
+                    setViewAccordingToNetworkStatus(false)
                 }
             }
         }
@@ -134,6 +128,18 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
                 Log.e(TAG, "Stock details could not be fetched")
             }
 
+        }
+    }
+
+    private fun setViewAccordingToNetworkStatus(isConnected: Boolean) {
+        requireActivity().runOnUiThread {
+            if (isConnected) {
+                binding.portfolioFragmentDisconnectedView.visibility = View.GONE
+                binding.portfolioFragmentConnectedView.visibility = View.VISIBLE
+            } else {
+                binding.portfolioFragmentDisconnectedView.visibility = View.VISIBLE
+                binding.portfolioFragmentConnectedView.visibility = View.GONE
+            }
         }
     }
 

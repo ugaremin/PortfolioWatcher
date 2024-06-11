@@ -107,17 +107,11 @@ class StocksFragment : Fragment(), StockItemClickListener {
             networkMonitorService = NetworkMonitorService(context) { isConnected ->
                 if (isConnected) {
                     viewModel.startDatabaseRequest()
-                    requireActivity().runOnUiThread {
-                        binding.stocksFragmentDisconnectedView.visibility = View.GONE
-                        binding.stocksFragmentConnectedView.visibility = View.VISIBLE
-                    }
+                    setViewAccordingToNetworkStatus(true)
 
                 } else {
                     viewModel.stopDatabaseRequest()
-                    requireActivity().runOnUiThread {
-                        binding.stocksFragmentDisconnectedView.visibility = View.VISIBLE
-                        binding.stocksFragmentConnectedView.visibility = View.GONE
-                    }
+                    setViewAccordingToNetworkStatus(false)
                 }
             }
         }
@@ -176,6 +170,18 @@ class StocksFragment : Fragment(), StockItemClickListener {
             }
 
 
+        }
+    }
+
+    private fun setViewAccordingToNetworkStatus(isConnected: Boolean) {
+        requireActivity().runOnUiThread {
+            if (isConnected) {
+                binding.stocksFragmentDisconnectedView.visibility = View.GONE
+                binding.stocksFragmentConnectedView.visibility = View.VISIBLE
+            } else {
+                binding.stocksFragmentDisconnectedView.visibility = View.VISIBLE
+                binding.stocksFragmentConnectedView.visibility = View.GONE
+            }
         }
     }
 
