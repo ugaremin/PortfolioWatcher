@@ -52,9 +52,14 @@ class StocksViewModel : ViewModel() {
 
     fun uploadStocksData(context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
-            val dataSource = StocksDataSource()
-            val stocks = dataSource.getStocksData(context, false)
-            stocksLiveData.postValue(stocks)
+            try {
+                val dataSource = StocksDataSource()
+                val stocks = dataSource.getStocksData(context, false)
+                stocksLiveData.postValue(stocks)
+            } catch (e: Exception) {
+                Log.e("StocksViewModel", "Error: ${e.message}")
+            }
+
         }
     }
 

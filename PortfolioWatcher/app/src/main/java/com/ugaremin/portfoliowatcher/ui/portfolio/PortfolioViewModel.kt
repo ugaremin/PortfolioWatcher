@@ -63,9 +63,14 @@ class PortfolioViewModel : ViewModel() {
 
     fun getAllStocks(context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
-            val dataSource = StocksDataSource()
-            val stocks = dataSource.getStocksData(context, true)
-            stocksLiveData.postValue(stocks.toMutableList())
+            try {
+                val dataSource = StocksDataSource()
+                val stocks = dataSource.getStocksData(context, true)
+                stocksLiveData.postValue(stocks.toMutableList())
+            } catch (e: Exception) {
+                Log.e(TAG, "Error: ${e.message}")
+            }
+
         }
     }
 
@@ -83,37 +88,49 @@ class PortfolioViewModel : ViewModel() {
 
     fun deleteStocks(context: Context, stockName: String, completion: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
-            AppDatabase.getInstance(context).stocksDao().deleteStockByStockName(stockName)
-            getSumLastValue(context){
-                Log.i(TAG, "stocks removed")
+            try {
+                AppDatabase.getInstance(context).stocksDao().deleteStockByStockName(stockName)
+                getSumLastValue(context){
+                    Log.i(TAG, "stocks removed")
+                }
+                completion()
+            } catch (e: Exception) {
+                Log.e(TAG, "Error: ${e.message}")
             }
-            completion()
+
         }
 
     }
 
     fun getSumStocks(context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
-            val userDao = AppDatabase.getInstance(context).stocksDao()
-            TotalPortfolioStatus.sumStocks = userDao.getTotal()
-            TotalPortfolioStatus.sumStocks = userDao.getTotal()
+            try {
+                val userDao = AppDatabase.getInstance(context).stocksDao()
+                TotalPortfolioStatus.sumStocks = userDao.getTotal()
+                TotalPortfolioStatus.sumStocks = userDao.getTotal()
+            } catch (e: Exception) {
+                Log.e(TAG, "Error: ${e.message}")
+            }
+
         }
     }
 
     fun getSumLastValue(context: Context, completion: () -> Unit){
         viewModelScope.launch(Dispatchers.IO) {
-            val userDao = AppDatabase.getInstance(context).stocksDao()
-            TotalPortfolioStatus.sumStocks = userDao.getTotal()
-            val dataSource = StocksDataSource()
-            TotalPortfolioStatus.sumLastValues = dataSource.getTotalValueForPortfolio(context)
-            TotalPortfolioStatus.totalProfit = TotalPortfolioStatus.sumLastValues - TotalPortfolioStatus.sumStocks
-            TotalPortfolioStatus.totalProfitPercent = (TotalPortfolioStatus.totalProfit / TotalPortfolioStatus.sumStocks) * 100
-            launch(Dispatchers.Main) {
-                _updateLiveData.value = Unit
+            try {
+                val userDao = AppDatabase.getInstance(context).stocksDao()
+                TotalPortfolioStatus.sumStocks = userDao.getTotal()
+                val dataSource = StocksDataSource()
+                TotalPortfolioStatus.sumLastValues = dataSource.getTotalValueForPortfolio(context)
+                TotalPortfolioStatus.totalProfit = TotalPortfolioStatus.sumLastValues - TotalPortfolioStatus.sumStocks
+                TotalPortfolioStatus.totalProfitPercent = (TotalPortfolioStatus.totalProfit / TotalPortfolioStatus.sumStocks) * 100
+                launch(Dispatchers.Main) {
+                    _updateLiveData.value = Unit
+                }
+                completion()
+            } catch (e: Exception) {
+                Log.e(TAG, "Error: ${e.message}")
             }
-            completion()
-
         }
-
     }
 }

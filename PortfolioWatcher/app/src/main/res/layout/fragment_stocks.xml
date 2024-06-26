@@ -9,49 +9,86 @@
     android:orientation="vertical"
     tools:context="com.ugaremin.portfoliowatcher.ui.stocks.StocksFragment">
 
-    <EditText
-        android:id="@+id/searchEditText"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:hint="@string/search_stocks"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:imeOptions="actionSearch"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_weight="1"
-        android:background="@drawable/search_bar_shape"
-        android:drawableStart="@drawable/icon_search"
-        android:singleLine="true" />
+        android:layout_height="match_parent"
+        android:id="@+id/stocks_fragment_connected_view"
+        android:visibility="visible">
 
-    <ImageView
-        android:id="@+id/cancel_button"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        app:layout_constraintEnd_toEndOf="@+id/searchEditText"
-        app:layout_constraintTop_toTopOf="@+id/searchEditText"
-        app:layout_constraintBottom_toBottomOf="@+id/searchEditText"
-        android:layout_marginRight="5dp"
-        android:background="@drawable/icon_cancel"/>
+        <EditText
+            android:id="@+id/searchEditText"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:hint="@string/search_stocks"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:imeOptions="actionSearch"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/search_bar_shape"
+            android:drawableStart="@drawable/icon_search"
+            android:singleLine="true" />
 
-    <ProgressBar
-        android:id="@+id/stocks_progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:visibility="gone" />
+        <ImageView
+            android:id="@+id/cancel_button"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:layout_constraintEnd_toEndOf="@+id/searchEditText"
+            app:layout_constraintTop_toTopOf="@+id/searchEditText"
+            app:layout_constraintBottom_toBottomOf="@+id/searchEditText"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/icon_cancel"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        <ProgressBar
+            android:id="@+id/stocks_progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="659dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintTop_toBottomOf="@+id/searchEditText"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="659dp"
-        android:layout_marginTop="5dp"
-        app:layout_constraintTop_toBottomOf="@+id/searchEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        android:layout_height="match_parent"
+        android:id="@+id/stocks_fragment_disconnected_view"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/internet_disconnected_icon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/icon_disconnected"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/internet_disconnected_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/internet_disconnected_icon"
+            android:layout_marginTop="10dp"
+            android:text="@string/network_error" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ugaremin.portfoliowatcher.Utilities.NetworkCheck.Companion.isInternetAvailable
 import com.ugaremin.portfoliowatcher.R
+import com.ugaremin.portfoliowatcher.Utilities.CheckBottomSheetDialog
 import com.ugaremin.portfoliowatcher.Utilities.CustomItemDecoration
+import com.ugaremin.portfoliowatcher.Utilities.NetworkMonitorService
 import com.ugaremin.portfoliowatcher.adapter.PortfolioAdapter
 import com.ugaremin.portfoliowatcher.adapter.StockItemClickListener
 import com.ugaremin.portfoliowatcher.adapter.SwipeToDeleteCallback
@@ -34,6 +36,7 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
     private val TAG = PortfolioFragment::class.java.simpleName;
     private lateinit var viewModel: PortfolioViewModel
     private lateinit var adapter: PortfolioAdapter
+    private lateinit var networkMonitorService: NetworkMonitorService
 
     private var _binding: FragmentPortfolioBinding? = null
     private val binding get() = _binding!!
@@ -41,7 +44,7 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentPortfolioBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -77,11 +80,6 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
 
 
         viewModel.setContext(requireContext())
-        if(isInternetAvailable(requireContext())){
-            viewModel.startDatabaseRequest()
-        }else{
-            Toast.makeText(requireContext(), getString(R.string.network_error), Toast.LENGTH_LONG).show()
-        }
 
         val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(adapter))
         itemTouchHelper.attachToRecyclerView(binding.portfolioRecyclerView)
@@ -92,6 +90,7 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
     override fun onDestroyView() {
         super.onDestroyView()
         viewModel.stopDatabaseRequest()
+        networkMonitorService.stopNetworkCallback()
         _binding = null
     }
 
@@ -104,18 +103,43 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
         viewModel.updateGeneralValuesLiveData.observe(viewLifecycleOwner, Observer {
             setGeneralSituationValeu()
         })
+
+        context?.let { context ->
+            networkMonitorService = NetworkMonitorService(context) { isConnected ->
+                if (isConnected) {
+                    viewModel.startDatabaseRequest()
+                    setViewAccordingToNetworkStatus(true)
+                } else {
+                    viewModel.stopDatabaseRequest()
+                    setViewAccordingToNetworkStatus(false)
+                }
+            }
+        }
     }
 
     override fun onItemClick(item: StocksData) {
         viewModel.uploadStockDetail(item.stockUrl, item.stockName, ){ success ->
-            if (success){
+            if (success && CheckBottomSheetDialog.dialogIsShowing != true){
                 val bottomSheetDialogFragment = StockDetailDialogFragment()
                 bottomSheetDialogFragment.show(childFragmentManager, bottomSheetDialogFragment.tag)
+                CheckBottomSheetDialog.dialogIsShowing = true
                 Log.d(TAG, "Stock Details -> weekly: ${StockDetailData.weeklyChange} -- monthly: ${StockDetailData.monthlyChange} -- yearly: ${StockDetailData.yearlyChange}")
             } else {
                 Log.e(TAG, "Stock details could not be fetched")
             }
 
+        }
+    }
+
+    private fun setViewAccordingToNetworkStatus(isConnected: Boolean) {
+        GlobalScope.launch(Dispatchers.Main) {
+            if (isConnected) {
+                binding.portfolioFragmentDisconnectedView.visibility = View.GONE
+                binding.portfolioFragmentConnectedView.visibility = View.VISIBLE
+            } else {
+                binding.portfolioFragmentDisconnectedView.visibility = View.VISIBLE
+                binding.portfolioFragmentConnectedView.visibility = View.GONE
+            }
         }
     }
 

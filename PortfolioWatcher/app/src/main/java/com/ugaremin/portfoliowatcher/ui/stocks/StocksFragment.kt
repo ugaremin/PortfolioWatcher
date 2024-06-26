@@ -20,13 +20,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ugaremin.portfoliowatcher.Utilities.NetworkCheck
 import com.ugaremin.portfoliowatcher.R
+import com.ugaremin.portfoliowatcher.Utilities.CheckBottomSheetDialog
 import com.ugaremin.portfoliowatcher.Utilities.CustomItemDecoration
+import com.ugaremin.portfoliowatcher.Utilities.NetworkMonitorService
 import com.ugaremin.portfoliowatcher.adapter.StockItemClickListener
 import com.ugaremin.portfoliowatcher.adapter.StocksAdapter
 import com.ugaremin.portfoliowatcher.data.StockDetailData
 import com.ugaremin.portfoliowatcher.data.StocksData
 import com.ugaremin.portfoliowatcher.databinding.FragmentStocksBinding
 import com.ugaremin.portfoliowatcher.ui.dialogs.stockDetailDialog.StockDetailDialogFragment
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class StocksFragment : Fragment(), StockItemClickListener {
@@ -35,6 +40,7 @@ class StocksFragment : Fragment(), StockItemClickListener {
     private lateinit var viewModel: StocksViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: StocksAdapter
+    private lateinit var networkMonitorService: NetworkMonitorService
 
     private var _binding: FragmentStocksBinding? = null
     private val binding get() = _binding!!
@@ -43,7 +49,7 @@ class StocksFragment : Fragment(), StockItemClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentStocksBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -94,17 +100,29 @@ class StocksFragment : Fragment(), StockItemClickListener {
         })
         viewModel.setContext(requireContext())
 
-        if(NetworkCheck.isInternetAvailable(requireContext())){
-            viewModel.startDatabaseRequest()
-        }else{
-            Toast.makeText(requireContext(), getString(R.string.network_error), Toast.LENGTH_LONG).show()
-        }
-
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        context?.let { context ->
+            networkMonitorService = NetworkMonitorService(context) { isConnected ->
+                if (isConnected) {
+                    viewModel.startDatabaseRequest()
+                    setViewAccordingToNetworkStatus(true)
+
+                } else {
+                    viewModel.stopDatabaseRequest()
+                    setViewAccordingToNetworkStatus(false)
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        networkMonitorService.stopNetworkCallback()
         viewModel.stopDatabaseRequest()
         _binding = null
     }
@@ -145,15 +163,28 @@ class StocksFragment : Fragment(), StockItemClickListener {
     override fun onItemClick(item: StocksData) {
         Log.d(TAG, "Item clicked: ${item.stockUrl}")
         viewModel.uploadStockDetail(item.stockUrl, item.stockName){ success ->
-            if (success) {
+            if (success && CheckBottomSheetDialog.dialogIsShowing != true) {
                 val bottomSheetDialogFragment = StockDetailDialogFragment()
                 bottomSheetDialogFragment.show(childFragmentManager, bottomSheetDialogFragment.tag)
+                CheckBottomSheetDialog.dialogIsShowing = true
                 Log.d(TAG, "Stock Details -> weekly: ${StockDetailData.weeklyChange} -- monthly: ${StockDetailData.monthlyChange} -- yearly: ${StockDetailData.yearlyChange}")
             } else {
                 Log.e(TAG, "Stock details could not be fetched")
             }
 
 
+        }
+    }
+
+    private fun setViewAccordingToNetworkStatus(isConnected: Boolean) {
+        GlobalScope.launch(Dispatchers.Main) {
+            if (isConnected) {
+                binding.stocksFragmentDisconnectedView.visibility = View.GONE
+                binding.stocksFragmentConnectedView.visibility = View.VISIBLE
+            } else {
+                binding.stocksFragmentDisconnectedView.visibility = View.VISIBLE
+                binding.stocksFragmentConnectedView.visibility = View.GONE
+            }
         }
     }
 
