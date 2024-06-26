@@ -29,6 +29,9 @@ import com.ugaremin.portfoliowatcher.data.StockDetailData
 import com.ugaremin.portfoliowatcher.data.StocksData
 import com.ugaremin.portfoliowatcher.databinding.FragmentStocksBinding
 import com.ugaremin.portfoliowatcher.ui.dialogs.stockDetailDialog.StockDetailDialogFragment
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class StocksFragment : Fragment(), StockItemClickListener {
@@ -174,7 +177,7 @@ class StocksFragment : Fragment(), StockItemClickListener {
     }
 
     private fun setViewAccordingToNetworkStatus(isConnected: Boolean) {
-        requireActivity().runOnUiThread {
+        GlobalScope.launch(Dispatchers.Main) {
             if (isConnected) {
                 binding.stocksFragmentDisconnectedView.visibility = View.GONE
                 binding.stocksFragmentConnectedView.visibility = View.VISIBLE

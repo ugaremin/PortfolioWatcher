@@ -132,7 +132,7 @@ class PortfolioFragment : Fragment(), StockItemClickListener {
     }
 
     private fun setViewAccordingToNetworkStatus(isConnected: Boolean) {
-        requireActivity().runOnUiThread {
+        GlobalScope.launch(Dispatchers.Main) {
             if (isConnected) {
                 binding.portfolioFragmentDisconnectedView.visibility = View.GONE
                 binding.portfolioFragmentConnectedView.visibility = View.VISIBLE
